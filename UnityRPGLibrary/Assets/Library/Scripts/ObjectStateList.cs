@@ -121,6 +121,7 @@ public class ObjectStateList
     public void Load(string filename) {
         string json = File.ReadAllText(Application.persistentDataPath + $"/savedata_{filename}.json");
         JsonUtility.FromJsonOverwrite(json, this);
+        this.makeDictionary();
         this.Init();
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 abstract public class ObjectBehaviour : MonoBehaviour
 {
     // オブジェクト名
-    abstract protected string objectName {get; set;}
+    abstract public string objectName {get; protected set;}
 
     // グローバル格納値
     protected ObjectStateList objList = ObjectStateList.getInstance();

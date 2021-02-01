@@ -1,26 +1,38 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class ObjectState<T>
 {
     // デリゲート定義
     public delegate void Callback(T s);
 
     // 値参照・更新時の処理
-    Dictionary<string, Callback> getTriggers = new Dictionary<string, Callback>();
-    Dictionary<string, Callback> setTriggers = new Dictionary<string, Callback>();
+    private Dictionary<string, Callback> getTriggers = new Dictionary<string, Callback>();
+    private Dictionary<string, Callback> setTriggers = new Dictionary<string, Callback>();
 
     // 保持する値
-    T value = default(T);
+    [SerializeField]
+    private string name = "";
+    [SerializeField]
+    private T value = default(T);
 
     // コンストラクタ 
-    ObjectState(T initValue)
+    public ObjectState(string initName, T initValue)
     {
+        this.name = initName;
         this.value = initValue;
     }
 
+    // 名前のゲッター
+    public String GetName()
+    {
+        return this.name;
+    }
+
     // ゲッター
-    public T getValue()
+    public T GetValue()
     {
         foreach (var getTrigger in this.getTriggers)
         {
@@ -30,7 +42,7 @@ public class ObjectState<T>
     }
 
     // セッター
-    public void setValue(T newValue)
+    public void SetValue(T newValue)
     {
         this.value = newValue;
         foreach (var setTrigger in this.setTriggers)
@@ -39,39 +51,27 @@ public class ObjectState<T>
         }
     }
 
-    // getTriggerへの追加
-    public void addGetTrigger(string name, Callback callback)
+    // getTriggersへの追加
+    public void AddGetTrigger(string name, Callback callback)
     {
         getTriggers.Add(name, callback);
     }
 
-    // getTriggerからの削除
-    public void deleteGetTrigger(string name)
+    // getTriggersからの削除
+    public void DeleteGetTrigger(string name)
     {
         getTriggers.Remove(name);
     }
 
-    // setTriggerへの追加
-    public void addSetTrigger(string name, Callback callback)
+    // setTriggersへの追加
+    public void AddSetTrigger(string name, Callback callback)
     {
         setTriggers.Add(name, callback);
     }
 
-    // setTriggerからの削除
-    public void deleteSetTrigger(string name)
+    // setTriggersからの削除
+    public void DeleteSetTrigger(string name)
     {
         setTriggers.Remove(name);
-    }
-
-    // シリアライズ
-    public string serialize()
-    {
-        return JsonUtility.ToJson(this.value);
-    }
-
-    // ローディング
-    public void loading(string s)
-    {
-        this.value = JsonUtility.FromJson<T>(s);
     }
 }

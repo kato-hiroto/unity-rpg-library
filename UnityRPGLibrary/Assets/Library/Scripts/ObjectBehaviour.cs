@@ -8,18 +8,20 @@ abstract public class ObjectBehaviour : MonoBehaviour
     abstract public string objectName {get; protected set;}
 
     // グローバル格納値
-    protected ObjectStateList objList = ObjectStateList.getInstance();
+    protected ObjectStateList varList = ObjectStateList.getInstance();
+    protected ObjectStream taskStream;
 
     // データロード時・初期処理
     abstract protected void Init();
     abstract protected void AfterInit();
 
-    // InitをobjListに関連付ける
+    // InitをvarListに関連付ける
     protected void AttachInit()
     {
         Init();
-        objList.AddInitTrigger(objectName, Init);
-        objList.AddAfterTrigger(objectName, AfterInit);
+        taskStream = ObjectStream.getInstance();
+        varList.AddInitTrigger(objectName, Init);
+        varList.AddAfterTrigger(objectName, AfterInit);
     }
 }
 

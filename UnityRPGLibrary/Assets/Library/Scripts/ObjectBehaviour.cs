@@ -18,10 +18,28 @@ abstract public class ObjectBehaviour : MonoBehaviour
     // InitをvarListに関連付ける
     protected void AttachInit()
     {
-        Init();
         taskStream = ObjectStream.getInstance();
         varList.AddInitTrigger(objectName, Init);
+        Init();
+    }
+
+    // AfterInitをvarListに関連付ける
+    protected void AttachAfterInit()
+    {
         varList.AddAfterTrigger(objectName, AfterInit);
+        AfterInit();
+    }
+
+    // Initの実行
+    void Awake()
+    {
+        AttachInit();
+    }
+
+    // AfterInitの実行
+    void Start()
+    {
+        AttachAfterInit();
     }
 }
 

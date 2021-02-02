@@ -24,8 +24,7 @@ public class ObjectStream : MonoBehaviour
     public static ObjectStream getInstance() {
         if (mInstance == null) {
             var tmpObj = new GameObject("ObjectStream");
-            var tmpInst = Instantiate(tmpObj);
-            mInstance = tmpInst.AddComponent<ObjectStream>();
+            mInstance = tmpObj.AddComponent<ObjectStream>();
         }
         return mInstance;
     }

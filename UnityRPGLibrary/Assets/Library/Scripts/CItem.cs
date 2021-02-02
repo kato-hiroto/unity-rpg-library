@@ -32,13 +32,6 @@ public class CItem : ObjectBehaviour
 
     // すべての初期処理終了後に呼ばれる関数
     override protected void AfterInit(){
-        Debug.Log("AfterInit 実行！");
-    }
-
-    // 開始時処理
-    void Start()
-    {
-        AttachInit();
         taskStream.AddTimer($"{objectName}_timing1", 5, ()=>{
             varList.Load("testfile2");
         });
@@ -57,10 +50,6 @@ public class CItem : ObjectBehaviour
         taskStream.AddLoop($"{objectName}_loop", ()=>{
             Debug.Log($"現在: アイテム数{itemAmount.GetValue()}個");
         });
-    }
-
-    void Update()
-    {
-
+        Debug.Log("AfterInit 実行！");
     }
 }

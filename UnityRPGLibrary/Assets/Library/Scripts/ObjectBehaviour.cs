@@ -12,12 +12,14 @@ abstract public class ObjectBehaviour : MonoBehaviour
 
     // データロード時・初期処理
     abstract protected void Init();
+    abstract protected void AfterInit();
 
     // InitをobjListに関連付ける
     protected void AttachInit()
     {
-        this.Init();
-        objList.AddInitTrigger(objectName, this.Init);
+        Init();
+        objList.AddInitTrigger(objectName, Init);
+        objList.AddAfterTrigger(objectName, AfterInit);
     }
 }
 

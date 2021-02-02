@@ -9,8 +9,8 @@ public class ObjectState<T>
     public delegate void Callback(T s);
 
     // 値参照・更新時の処理
-    private Dictionary<string, Callback> getTriggers = new Dictionary<string, Callback>();
-    private Dictionary<string, Callback> setTriggers = new Dictionary<string, Callback>();
+    private Dictionary<string, Callback> getTriggers;
+    private Dictionary<string, Callback> setTriggers;
 
     // 保持する値
     [SerializeField]
@@ -18,34 +18,44 @@ public class ObjectState<T>
     [SerializeField]
     private T value = default(T);
 
-    // コンストラクタ 
-    public ObjectState(string initName, T initValue)
+    // 初期化処理
+    public ObjectState<T> Init()
     {
-        this.name = initName;
-        this.value = initValue;
+        getTriggers = new Dictionary<string, Callback>();
+        setTriggers = new Dictionary<string, Callback>();
+        return this;
+    }
+
+    public ObjectState<T> Init(string initName, T initValue)
+    {
+        name = initName;
+        value = initValue;
+        getTriggers = new Dictionary<string, Callback>();
+        setTriggers = new Dictionary<string, Callback>();
+        return this;
     }
 
     // 名前のゲッター
     public String GetName()
     {
-        return this.name;
+        return name;
     }
 
     // ゲッター
     public T GetValue()
     {
-        foreach (var getTrigger in this.getTriggers)
+        foreach (var getTrigger in getTriggers)
         {
-            getTrigger.Value(this.value);
+            getTrigger.Value(value);
         }
-        return this.value;
+        return value;
     }
 
     // セッター
     public void SetValue(T newValue)
     {
-        this.value = newValue;
-        foreach (var setTrigger in this.setTriggers)
+        value = newValue;
+        foreach (var setTrigger in setTriggers)
         {
             setTrigger.Value(newValue);
         }
@@ -54,24 +64,24 @@ public class ObjectState<T>
     // getTriggersへの追加
     public void AddGetTrigger(string name, Callback callback)
     {
-        getTriggers.Add(name, callback);
+        if (!getTriggers.ContainsKey(name)) getTriggers.Add(name, callback);
     }
 
     // getTriggersからの削除
     public void DeleteGetTrigger(string name)
     {
-        getTriggers.Remove(name);
+        if (getTriggers.ContainsKey(name)) getTriggers.Remove(name);
     }
 
     // setTriggersへの追加
     public void AddSetTrigger(string name, Callback callback)
     {
-        setTriggers.Add(name, callback);
+        if (!setTriggers.ContainsKey(name)) setTriggers.Add(name, callback);
     }
 
     // setTriggersからの削除
     public void DeleteSetTrigger(string name)
     {
-        setTriggers.Remove(name);
+        if (setTriggers.ContainsKey(name)) setTriggers.Remove(name);
     }
 }

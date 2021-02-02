@@ -23,38 +23,38 @@ public class ObjectStream : MonoBehaviour
     }
 
     // 実行キューへの追加
-    public void AddQueue(StreamTask task)
+    public void Add(StreamTask task)
     {
-        this.queue.Enqueue(task);
-    }
-
-    // 実行キューの長さ確認
-    public int QueueSize()
-    {
-        return this.queue.Count;
-    }
-
-    // 実行キューの開始
-    private void ExecuteQueue()
-    {
-        if (this.QueueSize() > 0 && !this.executing)
-        {
-            this.executing = true;
-            var task = this.queue.Peek();
-            task();
-        }
+        queue.Enqueue(task);
     }
 
     // 実行キューの移動
-    public void NextQueue()
+    public void Next()
     {
-        this.queue.Dequeue();
-        this.executing = false;
+        queue.Dequeue();
+        executing = false;
+    }
+
+    // 実行キューの長さ確認
+    public int Size()
+    {
+        return queue.Count;
+    }
+
+    // 実行キューの開始
+    private void Execute()
+    {
+        if (Size() > 0 && !executing)
+        {
+            executing = true;
+            var task = queue.Peek();
+            task();
+        }
     }
 
     // キューの随時実行
     void Update()
     {
-        ExecuteQueue();
+        Execute();
     }
 }

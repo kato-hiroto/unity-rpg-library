@@ -9508,7 +9508,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 392250027}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.36, y: 4.23, z: 0}
+  m_LocalPosition: {x: -8.5, y: 4.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -9523,18 +9523,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 392250027}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3b3e2fc651b68c42a50b5cd9f34d88e, type: 3}
+  m_Script: {fileID: 11500000, guid: c436c5dcefa0aa84ab90173b4b03770a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   <objectName>k__BackingField: test
   initItemName: player
   initItemAmount: 0
-  itemName:
-    name: 
-    value: 
-  itemAmount:
-    name: 
-    value: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -9588,7 +9582,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -9612,12 +9606,73 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.02, z: -10}
+  m_LocalPosition: {x: -8.5, y: 4.3, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1033284899
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1033284900}
+  - component: {fileID: 1033284901}
+  m_Layer: 0
+  m_Name: iron_sword
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1033284900
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1033284899}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1033284901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1033284899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e07da5536ee31454eb77ae38e59d43f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <objectName>k__BackingField: iron_sword
+  <itemName>k__BackingField: "\u9244\u306E\u5263"
+  <skillName>k__BackingField: "\u65AC\u6483 (\u9244\u306E\u5263)"
+  <description>k__BackingField: "\u653B\u6483\u529B20\u3000\u3042\u308A\u3075\u308C\u305F\u9244\u88FD\u306E\u5263\u3002\u6210\u529F\u7387\u306F[\u5263\u8853]\u306E\u719F\u7DF4\u5EA6\u306B\u4F9D\u5B58\u3002"
+  <typeTag>k__BackingField: []
+  <initQuantity>k__BackingField: 0
+  <initLevel>k__BackingField: 0
+  <initEffect>k__BackingField: 20
+  <initCooltime>k__BackingField: 10
+  <usable>k__BackingField: 0
+  <consumable>k__BackingField: 0
+  <equippable>k__BackingField: 1
+  <executable>k__BackingField: 1
+  useAction: {fileID: 0}
+  consumeAction: {fileID: 0}
+  equipAction: {fileID: 0}
+  removeAction: {fileID: 0}
+  executeAction: {fileID: 0}
 --- !u!1 &1297190901
 GameObject:
   m_ObjectHideFlags: 0

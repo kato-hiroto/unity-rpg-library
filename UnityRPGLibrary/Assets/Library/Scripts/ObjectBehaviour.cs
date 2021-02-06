@@ -6,6 +6,7 @@ abstract public class ObjectBehaviour : MonoBehaviour
 {
     // オブジェクト名
     abstract public string objectName {get; protected set;}
+    protected string uniqueID = "";
 
     // グローバル格納値
     protected ObjectStateList varList = ObjectStateList.getInstance();
@@ -19,14 +20,15 @@ abstract public class ObjectBehaviour : MonoBehaviour
     protected void AttachInit()
     {
         taskStream = ObjectStream.getInstance();
-        varList.AddInitTrigger(objectName, Init);
+        uniqueID = objectName + transform.position.ToString();
+        varList.AddInitTrigger(uniqueID, Init);
         Init();
     }
 
     // AfterInitをvarListに関連付ける
     protected void AttachAfterInit()
     {
-        varList.AddAfterTrigger(objectName, AfterInit);
+        varList.AddAfterTrigger(uniqueID, AfterInit);
         AfterInit();
     }
 

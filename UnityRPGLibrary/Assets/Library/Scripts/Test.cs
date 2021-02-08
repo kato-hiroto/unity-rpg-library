@@ -19,7 +19,7 @@ public class Test : ObjectBehaviour
     // ステータスの挿入
     public void SetStatus(string uniqueId)
     {
-        FirstSetting(uniqueId);
+        // FirstSetting(uniqueId);
     }
 
     // データロード時・初期処理

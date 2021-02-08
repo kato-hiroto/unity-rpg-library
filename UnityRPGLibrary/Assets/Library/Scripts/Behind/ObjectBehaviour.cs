@@ -17,7 +17,7 @@ abstract public class ObjectBehaviour : MonoBehaviour
     abstract protected void AfterInit();
 
     // IDの設定，初期処理開始
-    protected void FirstSetting(string uniqueId)
+    protected void StartSetting(string uniqueId)
     {
         this.uniqueId = uniqueId;
         taskStream = ObjectStream.getInstance();
@@ -27,7 +27,7 @@ abstract public class ObjectBehaviour : MonoBehaviour
     }
 
     // AfterInitをvarListに関連付ける，初期処理終了
-    protected void SecondSetting()
+    protected void EndSetting()
     {
         if (uniqueId == "") return;
         varList.AddAfterTrigger(uniqueId, AfterInit);
@@ -37,6 +37,6 @@ abstract public class ObjectBehaviour : MonoBehaviour
 
     void Update()
     {
-        SecondSetting();
+        EndSetting();
     }
 }

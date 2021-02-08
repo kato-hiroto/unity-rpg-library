@@ -9442,7 +9442,7 @@ GameObject:
   - component: {fileID: 392250028}
   - component: {fileID: 392250030}
   m_Layer: 0
-  m_Name: normal_man_0
+  m_Name: Haruto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9523,11 +9523,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 392250027}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c436c5dcefa0aa84ab90173b4b03770a, type: 3}
+  m_Script: {fileID: 11500000, guid: 030c67b5c000f294caafc6882062dfee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initItemName: player
-  initItemAmount: 0
+  status: {fileID: 0}
+  initUniqueId: 
+  <status>k__BackingField: {fileID: 0}
+  <equippingItems>k__BackingField: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -9611,50 +9613,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1033284899
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1033284900}
-  - component: {fileID: 1033284901}
-  m_Layer: 0
-  m_Name: iron_sword
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1033284900
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1033284899}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1033284901
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1033284899}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e07da5536ee31454eb77ae38e59d43f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  status: {fileID: 11400000, guid: c29cddd8fbeaf524c9b6e15a1ad77946, type: 2}
 --- !u!1 &1297190901
 GameObject:
   m_ObjectHideFlags: 0

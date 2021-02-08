@@ -8,7 +8,7 @@ public class ItemObject : ScriptableObject
     public string itemName = "";
     public string skillName = "";
     public string description = "";
-    public List<ItemTag> itemTags {get; private set;} = new List<ItemTag>();  // 何かしらの属性 (装備可能キャラの指定など)
+    public List<ItemTag> itemTags = new List<ItemTag>();  // 何かしらの属性 (装備可能キャラの指定など)
 
     // 初期値
     public int initQuantity = 0;
@@ -16,10 +16,10 @@ public class ItemObject : ScriptableObject
 
     // 設定パラメータ
     public int worth = 0;
-    public float effect = 0f;
     public int range = 0;
-    public EffectShape effectShape = EffectShape.None;
+    public float effect = 0f;
     public float cooltime = 0f;
+    public EffectShape effectShape = EffectShape.None;
 
     // イベント
     public List<EventBehaviour> useActions = new List<EventBehaviour>();

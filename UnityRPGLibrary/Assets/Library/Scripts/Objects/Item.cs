@@ -16,10 +16,10 @@ public class Item : ObjectBehaviour
     public ObjectState<float> level;
 
     // ステータスの挿入
-    public void SetStatus(string uniqueId, ItemObject status)
+    public void Setting(string uniqueId, ItemObject status)
     {
         this.status = status;
-        FirstSetting(uniqueId);
+        StartSetting(uniqueId);
     }
 
     // データロード時・初期処理
@@ -30,9 +30,7 @@ public class Item : ObjectBehaviour
     }
 
     // すべての初期処理終了後に呼ばれる関数
-    override protected void AfterInit()
-    {
-    }
+    override protected void AfterInit(){}
 
     // 関数の実行
     void ActExec(List<EventBehaviour> acts, Character character)

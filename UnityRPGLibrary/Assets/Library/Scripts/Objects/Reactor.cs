@@ -8,26 +8,30 @@ public class Reactor : ObjectBehaviour
     // 基礎ステータス
     [SerializeField]
     public ReactorObject status;
+    [SerializeField]
+    public string initUniqueId;
 
     // グローバル格納値
     [NonSerialized]
     public ObjectState<int> imageNum;
     [NonSerialized]
     public ObjectState<bool> detectFlag;
-    // [NonSerialized]
-    // public ObjectState<Vector3> objPosition;
-    // [NonSerialized]
-    // public ObjectState<Vector3> objRotation;
 
     // コンポーネント
     [NonSerialized]
     private SpriteRenderer mySprite;
 
+    // 初期配置オブジェクトの初期化
+    void Start()
+    {
+        StartSetting(uniqueId);
+    }
+
     // ステータスの挿入
-    public void SetStatus(string uniqueId, ReactorObject status)
+    public void Setting(string uniqueId, ReactorObject status)
     {
         this.status = status;
-        FirstSetting(uniqueId);
+        StartSetting(uniqueId);
     }
 
     // データロード時・初期処理
@@ -35,18 +39,12 @@ public class Reactor : ObjectBehaviour
     {
         imageNum = varList.intMap.SyncState($"{uniqueId}_q", status.initImageNum);
         detectFlag = varList.boolMap.SyncState($"{uniqueId}_d", status.initDetectFlag);
-        // objPosition = varList.vectorMap.SyncState($"{uniqueId}_p", transform.position);
-        // objRotation = varList.vectorMap.SyncState($"{uniqueId}_r", transform.rotation.eulerAngles);
-        // transform.position = objPosition.GetValue();
-        // transform.rotation = Quaternion.Euler(objRotation.GetValue());
         mySprite = GetComponent<SpriteRenderer>();
         mySprite.sprite = status.images[imageNum.GetValue()].GetImage(transform.rotation);
     }
 
     // すべての初期処理終了後に呼ばれる関数
-    override protected void AfterInit()
-    {
-    }
+    override protected void AfterInit(){}
 
     // 関数の実行
     void ActExec(List<EventBehaviour> acts, Character character, Item item)
@@ -96,10 +94,7 @@ public class Reactor : ObjectBehaviour
 public class DirectionImage
 {
     [field: SerializeField]
-    public List<Sprite> images {get; private set;}
-    // 下(正面)から時計回り
-    // (x,y)=(0,-1)のとき，座標では(x,y)=(1,0)
-    // (x,y)=(-1,0)のとき，座標では(x,y)=(0,1)
+    public List<Sprite> images {get; private set;}  // 下(正面)から時計回り
 
     public Sprite GetImage(Quaternion quat)
     {

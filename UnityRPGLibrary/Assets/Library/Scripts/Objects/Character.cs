@@ -6,8 +6,8 @@ using UnityEngine;
 public class Character : Reactor
 {
     // 基礎ステータス
-    [SerializeField]
-    new public CharacterObject status;
+    [field: SerializeField]
+    new public CharacterObject status {get; private set;} = null;
 
     // グローバル格納値
     [NonSerialized]
@@ -25,19 +25,15 @@ public class Character : Reactor
     [NonSerialized]
     public ObjectState<int> movePattern;    // None, Random, Escape, Attack
 
-    // コンポーネント
-    [NonSerialized]
-    private SpriteRenderer mySprite;
-
     // 関連オブジェクト
     [field: SerializeField]
     public ItemList equippingItems {get; private set;} = null;
 
     // ステータスの挿入
-    public void SetStatus(string uniqueId, CharacterObject status)
+    public void Setting(string uniqueId, CharacterObject status)
     {
         this.status = status;
-        FirstSetting(uniqueId);
+        StartSetting(uniqueId);
     }
 
     // データロード時・初期処理
@@ -54,14 +50,11 @@ public class Character : Reactor
         movePattern = varList.intMap.SyncState($"{uniqueId}_pat", status.initMovePattern);
         transform.position = objPosition.GetValue();
         transform.rotation = Quaternion.Euler(objRotation.GetValue());
-        mySprite = GetComponent<SpriteRenderer>();
-        mySprite.sprite = status.images[imageNum.GetValue()].GetImage(transform.rotation);
+        base.Init();
     }
 
     // すべての初期処理終了後に呼ばれる関数
-    override protected void AfterInit()
-    {
-    }
+    override protected void AfterInit(){}
 
     // 関数の実行
     void ActExec(List<EventBehaviour> acts, Character character, Item item)
@@ -105,13 +98,13 @@ public class Character : Reactor
         ActExec(status.affectActions, character, item);
     }
 
-    // アイテム・技能による干渉時に実行される関数
+    // ターゲッティングされた時に実行される関数
     public void Target(Character character, Item item)
     {
         ActExec(status.targetActions, character, item);
     }
 
-    // アイテム・技能による干渉時に実行される関数
+    // ターゲッティングが解除された時に実行される関数
     public void Untarget(Character character, Item item)
     {
         ActExec(status.untargetActions, character, item);

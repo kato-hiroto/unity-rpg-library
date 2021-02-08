@@ -45,6 +45,8 @@ abstract public class ObjectBehaviour : MonoBehaviour
     }
 }
 
+
+
     // 状態に関するメソッドを定義
     // 1. 自分の状態変数をグローバルリストに登録
     // 2. 任意の状態変数を更新

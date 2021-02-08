@@ -26,7 +26,7 @@ public class ObjectStateList
     [SerializeField]
     public ObjectStateMapper<float> floatMap;
     [SerializeField]
-    public ObjectStateMapper<Vector2> vectorMap;
+    public ObjectStateMapper<Vector3> vectorMap;
 
     // シングルトンの取得
     public static ObjectStateList getInstance() {

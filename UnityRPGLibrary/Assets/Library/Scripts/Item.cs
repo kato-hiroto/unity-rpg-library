@@ -9,7 +9,7 @@ public class Item : ObjectBehaviour
     [field: SerializeField]
     override public string objectName {get; protected set;} = "";
 
-    // 初期値
+    // 基本情報
     [field: SerializeField]
     public string itemName {get; private set;} = "";
     [field: SerializeField]
@@ -17,51 +17,49 @@ public class Item : ObjectBehaviour
     [field: SerializeField]
     public string description {get; private set;} = "";
     [field: SerializeField]
-    public List<string> typeTag {get; private set;} = new List<string>();  // 何かしらの属性 (装備可能キャラの指定など)
+    public List<ItemTag> itemTags {get; private set;} = new List<ItemTag>();  // 何かしらの属性 (装備可能キャラの指定など)
+
+    // 初期値
     [field: SerializeField]
     public int initQuantity {get; private set;} = 0;
     [field: SerializeField]
     public float initLevel {get; private set;} = 0f;
+
+    // 設定パラメータ
     [field: SerializeField]
-    public float initEffect {get; private set;} = 0f;
+    public int worth {get; private set;} = 0;
     [field: SerializeField]
-    public float initCooltime {get; private set;} = 0f;
+    public float effect {get; private set;} = 0f;
     [field: SerializeField]
-    public bool usable {get; private set;} = true;
+    public int range {get; private set;} = 0;
     [field: SerializeField]
-    public bool consumable {get; private set;} = true;
+    public EffectShape effectShape {get; private set;} = EffectShape.None;
     [field: SerializeField]
-    public bool equippable {get; private set;} = true;
-    [field: SerializeField]
-    public bool executable {get; private set;} = true;
+    public float cooltime {get; private set;} = 0f;
+
+    // イベント
     [SerializeField]
-    private ItemActionBehaviour useAction;   // 後でコモンMOBクラスに変更
+    public EventBehaviour useAction = null;
     [SerializeField]
-    private ItemActionBehaviour consumeAction;   // 後でコモンMOBクラスに変更
+    public EventBehaviour consumeAction = null;
     [SerializeField]
-    private ItemActionBehaviour equipAction;   // 後でコモンMOBクラスに変更
+    public EventBehaviour equipAction = null;
     [SerializeField]
-    private ItemActionBehaviour removeAction;   // 後でコモンMOBクラスに変更
+    public EventBehaviour removeAction = null;
     [SerializeField]
-    private ItemActionBehaviour executeAction;   // 後でコモンMOBクラスに変更
+    public EventBehaviour executeAction = null;
 
     // グローバル格納値
     [NonSerialized]
     public ObjectState<int> quantity;
     [NonSerialized]
     public ObjectState<float> level;
-    [NonSerialized]
-    public ObjectState<float> effect;
-    [NonSerialized]
-    public ObjectState<float> cooltime;
 
     // データロード時・初期処理
     override protected void Init()
     {
-        quantity = varList.intMap.SyncState($"{uniqueID}_quantity", initQuantity);
-        level = varList.floatMap.SyncState($"{uniqueID}_level", initLevel);
-        effect = varList.floatMap.SyncState($"{uniqueID}_effect", initEffect);
-        cooltime = varList.floatMap.SyncState($"{uniqueID}_cooltime", initCooltime);
+        quantity = varList.intMap.SyncState($"{uniqueID}_q", initQuantity);
+        level = varList.floatMap.SyncState($"{uniqueID}_l", initLevel);
     }
 
     // すべての初期処理終了後に呼ばれる関数
@@ -70,32 +68,53 @@ public class Item : ObjectBehaviour
     }
 
     // 「使用」時に実行される関数
-    public void Use()
+    public void Use(Character character)
     {
-        useAction.Execute(this);
+        if (useAction == null) return;
+        useAction.AtExecute(character, null, this);
     }
 
     // 「消費」時に実行される関数
-    public void Consume()
+    public void Consume(Character character)
     {
-        consumeAction.Execute(this);
+        if (consumeAction == null) return;
+        consumeAction.AtExecute(character, null, this);
     }
 
     // 「装備をつける」時に実行される関数
-    public void Equip()
+    public void Equip(Character character)
     {
-        equipAction.Execute(this);
+        if (equipAction == null) return;
+        equipAction.AtExecute(character, null, this);
     }
 
     // 「装備を外す」時に実行される関数
-    public void Remove()
+    public void Remove(Character character)
     {
-        removeAction.Execute(this);
+        if (removeAction == null) return;
+        removeAction.AtExecute(character, null, this);
     }
 
     // 「技能実行」時に実行される関数
-    public void Execute()
+    public void Execute(Character character)
     {
-        executeAction.Execute(this);
+        if (executeAction == null) return;
+        executeAction.AtExecute(character, null, this);
     }
+}
+
+public enum ItemTag
+{
+    None,
+    AlexEquippable
+}
+
+public enum EffectShape
+{
+    None,
+    Take,
+    Touch,
+    Shoot,
+    Observe,
+    Actuate
 }

@@ -5,28 +5,20 @@ using System.Collections.Generic;
 public class CharacterObject : ReactorObject
 {
     // 基本情報
-    [field: SerializeField]
-    public string characterName {get; private set;} = "";
-    [field: SerializeField]
-    public string charDescription {get; private set;} = "";
-    [field: SerializeField]
-    public List<CharacterTag> charTags {get; private set;} = new List<CharacterTag>();  // 何かしらの属性
+    public string characterName = "";
+    public string charDescription = "";
+    public List<CharacterTag> charTags = new List<CharacterTag>();  // 何かしらの属性
 
     // 初期値
-    [field: SerializeField]
-    public float initHitPoint {get; private set;} = 0f;
-    [field: SerializeField]
-    public float initMagicPoint {get; private set;} = 0f;
-    [field: SerializeField]
-    public float initEnergyPoint {get; private set;} = 0f;
-    [field: SerializeField]
-    public float initMoveSpeed {get; private set;} = 0f;
-    [field: SerializeField]
-    public int initMovePattern {get; private set;} = 0;
+    public float initHitPoint = 0f;
+    public float initMagicPoint = 0f;
+    public float initEnergyPoint = 0f;
+    public float initMoveSpeed = 0f;
+    public int initMovePattern = 0;
 
     // イベント
-    [SerializeField]
-    public EventBehaviour targetAction = null;
+    public List<EventBehaviour> targetActions = new List<EventBehaviour>();
+    public List<EventBehaviour> untargetActions = new List<EventBehaviour>();
 }
 
 public enum CharacterTag

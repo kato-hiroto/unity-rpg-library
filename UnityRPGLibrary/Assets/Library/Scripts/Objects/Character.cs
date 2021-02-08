@@ -58,45 +58,57 @@ public class Character : Reactor
     {
     }
 
-    // 接近時に実行される関数
-    override public void Approach(Character character)
+    // 関数の実行
+    void ActExec(List<EventBehaviour> acts, Character character, Item item)
     {
-        if (status.approachAction == null) return;
-        status.approachAction.VsExecute(character, this, null);
+        if (acts != null && acts.Count > 0)
+        {
+            foreach (var act in acts)
+            {
+                act.VsExecute(character, this, item);
+            }
+        } 
+    }
+
+    // 発見時に実行される関数
+    override public void Detect(Character character)
+    {
+        ActExec(status.detectActions, character, null);
+    }
+
+    // 発見範囲の離脱時に実行される関数
+    override public void Leave(Character character)
+    {
+        ActExec(status.loseSightActions, character, null);
     }
 
     // 通過時に実行される関数
     override public void Step(Character character)
     {
-        if (status.stepAction == null) return;
-        status.stepAction.VsExecute(character, this, null);
+        ActExec(status.stepActions, character, null);
     }
 
     // 接触時に実行される関数
     override public void Touch(Character character)
     {
-        if (status.touchAction == null) return;
-        status.touchAction.VsExecute(character, this, null);
-    }
-
-    // 「調べる」時に実行される関数
-    override public void Check(Character character)
-    {
-        if (status.checkAction == null) return;
-        status.checkAction.VsExecute(character, this, null);
+        ActExec(status.touchActions, character, null);
     }
 
     // アイテム・技能による干渉時に実行される関数
     override public void Affect(Character character, Item item)
     {
-        if (status.affectAction == null) return;
-        status.affectAction.VsExecute(character, this, item);
+        ActExec(status.affectActions, character, item);
     }
 
-    // ターゲッティングされた時に実行される関数
+    // アイテム・技能による干渉時に実行される関数
     public void Target(Character character, Item item)
     {
-        if (status.targetAction == null) return;
-        status.targetAction.VsExecute(character, this, item);
+        ActExec(status.targetActions, character, item);
+    }
+
+    // アイテム・技能による干渉時に実行される関数
+    public void Untarget(Character character, Item item)
+    {
+        ActExec(status.untargetActions, character, item);
     }
 }

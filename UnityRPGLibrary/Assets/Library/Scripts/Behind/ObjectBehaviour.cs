@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 [Serializable]
 abstract public class ObjectBehaviour : MonoBehaviour

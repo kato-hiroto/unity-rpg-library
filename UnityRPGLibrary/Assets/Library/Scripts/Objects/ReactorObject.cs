@@ -5,30 +5,21 @@ using System.Collections.Generic;
 public class ReactorObject : ScriptableObject
 {
     // 基本情報
-    [field: SerializeField]
-    public string reactorName {get; private set;} = "";
-    [field: SerializeField]
-    public string description {get; private set;} = "";
-    [field: SerializeField]
-    public List<ReactorTag> reactorTags {get; private set;} = new List<ReactorTag>();  // 何かしらの属性
+    public string reactorName = "";
+    public string description = "";
+    public List<ReactorTag> reactorTags = new List<ReactorTag>();  // 何かしらの属性
 
     // 初期値
-    [field: SerializeField]
-    public List<DirectionImage> images {get; private set;}
-    [field: SerializeField]
-    public int initImageNum {get; private set;} = 0;
+    public List<DirectionImage> images = new List<DirectionImage>();
+    public int initImageNum = 0;
+    public float initReactionRange = 0;
 
     // イベント
-    [SerializeField]
-    public EventBehaviour approachAction = null;
-    [SerializeField]
-    public EventBehaviour stepAction = null;
-    [SerializeField]
-    public EventBehaviour touchAction = null;
-    [SerializeField]
-    public EventBehaviour checkAction = null;
-    [SerializeField]
-    public EventBehaviour affectAction = null;
+    public List<EventBehaviour> detectActions = new List<EventBehaviour>();
+    public List<EventBehaviour> loseSightActions = new List<EventBehaviour>();
+    public List<EventBehaviour> stepActions = new List<EventBehaviour>();
+    public List<EventBehaviour> touchActions = new List<EventBehaviour>();
+    public List<EventBehaviour> affectActions = new List<EventBehaviour>();
 }
 
 public enum ReactorTag

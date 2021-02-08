@@ -34,38 +34,45 @@ public class Item : ObjectBehaviour
     {
     }
 
+    // 関数の実行
+    void ActExec(List<EventBehaviour> acts, Character character)
+    {
+        if (acts != null && acts.Count > 0)
+        {
+            foreach (var act in acts)
+            {
+                act.AtExecute(character, null, this);
+            }
+        } 
+    }
+
     // 「使用」時に実行される関数
     public void Use(Character character)
     {
-        if (status.useAction == null) return;
-        status.useAction.AtExecute(character, null, this);
+        ActExec(status.useActions, character);
     }
 
     // 「消費」時に実行される関数
     public void Consume(Character character)
     {
-        if (status.consumeAction == null) return;
-        status.consumeAction.AtExecute(character, null, this);
+        ActExec(status.consumeActions, character);
     }
 
     // 「装備をつける」時に実行される関数
     public void Equip(Character character)
     {
-        if (status.equipAction == null) return;
-        status.equipAction.AtExecute(character, null, this);
+        ActExec(status.equipActions, character);
     }
 
     // 「装備を外す」時に実行される関数
     public void Remove(Character character)
     {
-        if (status.removeAction == null) return;
-        status.removeAction.AtExecute(character, null, this);
+        ActExec(status.removeActions, character);
     }
 
     // 「技能実行」時に実行される関数
     public void Execute(Character character)
     {
-        if (status.executeAction == null) return;
-        status.executeAction.AtExecute(character, null, this);
+        ActExec(status.executeActions, character);
     }
 }

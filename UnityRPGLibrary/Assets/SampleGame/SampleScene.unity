@@ -9659,15 +9659,14 @@ MonoBehaviour:
   <itemName>k__BackingField: "\u9244\u306E\u5263"
   <skillName>k__BackingField: "\u65AC\u6483 (\u9244\u306E\u5263)"
   <description>k__BackingField: "\u653B\u6483\u529B20\u3000\u3042\u308A\u3075\u308C\u305F\u9244\u88FD\u306E\u5263\u3002\u6210\u529F\u7387\u306F[\u5263\u8853]\u306E\u719F\u7DF4\u5EA6\u306B\u4F9D\u5B58\u3002"
-  <typeTag>k__BackingField: []
+  <itemTags>k__BackingField: 
   <initQuantity>k__BackingField: 0
   <initLevel>k__BackingField: 0
-  <initEffect>k__BackingField: 20
-  <initCooltime>k__BackingField: 10
-  <usable>k__BackingField: 0
-  <consumable>k__BackingField: 0
-  <equippable>k__BackingField: 1
-  <executable>k__BackingField: 1
+  <worth>k__BackingField: 0
+  <effect>k__BackingField: 0
+  <range>k__BackingField: 0
+  <effectShape>k__BackingField: 0
+  <cooltime>k__BackingField: 0
   useAction: {fileID: 0}
   consumeAction: {fileID: 0}
   equipAction: {fileID: 0}

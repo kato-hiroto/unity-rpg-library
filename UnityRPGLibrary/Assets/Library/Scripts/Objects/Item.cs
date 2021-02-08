@@ -103,18 +103,18 @@ public class Item : ObjectBehaviour
     }
 }
 
-public enum ItemTag
-{
-    None,
-    AlexEquippable
-}
+// public enum ItemTag
+// {
+//     None,
+//     AlexEquippable
+// }
 
-public enum EffectShape
-{
-    None,
-    Take,
-    Touch,
-    Shoot,
-    Observe,
-    Actuate
-}
+// public enum EffectShape
+// {
+//     None,
+//     Take,
+//     Touch,
+//     Shoot,
+//     Observe,
+//     Actuate
+// }

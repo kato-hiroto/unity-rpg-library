@@ -1,14 +1,62 @@
 using UnityEngine;
+using System.Collections.Generic;
 
-// CreateAssetMenu属性を使用することで`Assets > Create > ScriptableObjects > CreasteEnemyParamAsset`という項目が表示される
-// それを押すとこの`EnemyParamAsset`が`Data`という名前でアセット化されてassetsフォルダに入る
-[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/CreateEnemyParamAsset")]
+[CreateAssetMenu(fileName = "Item", menuName = "ScriptableObjects/CreateItemAsset")]
 public class EnemyParamAsset : ScriptableObject
 {
-    // データ群の先頭をstringにして名前等に設定するとInspectorで見たときに項目TOPに表示されるので見やすくなります。
-    public string EnemyName = "スライム";
+    // 基本情報
+    [field: SerializeField]
+    public string itemName = "";
+    [field: SerializeField]
+    public string skillName = "";
+    [field: SerializeField]
+    public string description = "";
+    [field: SerializeField]
+    public List<ItemTag> itemTags {get; private set;} = new List<ItemTag>();  // 何かしらの属性 (装備可能キャラの指定など)
 
-    // privateでも[SerializeField]をつけることでInspectorで確認できるようになります。
+    // 初期値
+    [field: SerializeField]
+    public int initQuantity = 0;
+    [field: SerializeField]
+    public float initLevel = 0f;
+
+    // 設定パラメータ
+    [field: SerializeField]
+    public int worth = 0;
+    [field: SerializeField]
+    public float effect = 0f;
+    [field: SerializeField]
+    public int range = 0;
+    [field: SerializeField]
+    public EffectShape effectShape = EffectShape.None;
+    [field: SerializeField]
+    public float cooltime = 0f;
+
+    // イベント
     [SerializeField]
-    int MaxHP = 100;
+    public EventBehaviour useAction = null;
+    [SerializeField]
+    public EventBehaviour consumeAction = null;
+    [SerializeField]
+    public EventBehaviour equipAction = null;
+    [SerializeField]
+    public EventBehaviour removeAction = null;
+    [SerializeField]
+    public EventBehaviour executeAction = null;
+}
+
+public enum ItemTag
+{
+    None,
+    AlexEquippable
+}
+
+public enum EffectShape
+{
+    None,
+    Take,
+    Touch,
+    Shoot,
+    Observe,
+    Actuate
 }

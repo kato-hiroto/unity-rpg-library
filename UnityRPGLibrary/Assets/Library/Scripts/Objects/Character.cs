@@ -5,10 +5,6 @@ using UnityEngine;
 [Serializable]
 public class Character : Reactor
 {
-    // 基礎ステータス
-    [field: SerializeField]
-    new public CharacterObject status {get; private set;} = null;
-
     // グローバル格納値
     [NonSerialized]
     public ObjectState<Vector3> objPosition;
@@ -31,20 +27,7 @@ public class Character : Reactor
 
     // 関連オブジェクト
     [field: SerializeField]
-    public ItemList equippingItems {get; private set;} = null;
-
-    // 初期配置オブジェクトの初期化
-    void Start()
-    {
-        StartSetting(uniqueId);
-    }
-
-    // ステータスの挿入
-    public void Setting(string uniqueId, CharacterObject status)
-    {
-        this.status = status;
-        StartSetting(uniqueId);
-    }
+    public OBList equippingItems {get; private set;} = null;
 
     // データロード時・初期処理
     override protected void Init()
@@ -57,16 +40,10 @@ public class Character : Reactor
         moveSpeed = varList.floatMap.SyncState($"{uniqueId}_spe", status.initMoveSpeed);
         movePattern = varList.intMap.SyncState($"{uniqueId}_pat", status.initMovePattern);
         imageNum = varList.intMap.SyncState($"{uniqueId}_q", status.initImageNum);
-        detectFlag = varList.boolMap.SyncState($"{uniqueId}_d", status.initDetectFlag);
-        detect = new ObjectState<bool>().Init(false);
-        step = new ObjectState<bool>().Init(false);
-        touch = new ObjectState<bool>().Init(false);
-        affect = new ObjectState<bool>().Init(false);
         target = new ObjectState<bool>().Init(false);
         transform.position = objPosition.GetValue();
         transform.rotation = Quaternion.Euler(objRotation.GetValue());
-        mySprite = GetComponent<SpriteRenderer>();
-        mySprite.sprite = status.images[imageNum.GetValue()].GetImage(transform.rotation);
+        base.Init();
     }
 
     // すべての初期処理終了後に呼ばれる関数

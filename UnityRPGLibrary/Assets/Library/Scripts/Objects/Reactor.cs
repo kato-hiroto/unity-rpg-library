@@ -6,16 +6,14 @@ using UnityEngine;
 public class Reactor : ObjectBehaviour
 {
     // 基礎ステータス
-    [SerializeField]
-    public ReactorObject status;
-    [SerializeField]
-    public string initUniqueId;
+    [field: SerializeField]
+    public CharacterObject status {get; private set;}
+    [field: SerializeField]
+    public string initUniqueId {get; private set;}
 
     // グローバル格納値
     [NonSerialized]
     public ObjectState<int> imageNum;
-    [NonSerialized]
-    public ObjectState<bool> detectFlag;
 
     // ローカル反応変数
     [NonSerialized]
@@ -34,11 +32,11 @@ public class Reactor : ObjectBehaviour
     // 初期配置オブジェクトの初期化
     void Start()
     {
-        StartSetting(uniqueId);
+        StartSetting(initUniqueId);
     }
 
     // ステータスの挿入
-    public void Setting(string uniqueId, ReactorObject status)
+    public void Setting(string uniqueId, CharacterObject status)
     {
         this.status = status;
         StartSetting(uniqueId);
@@ -48,7 +46,6 @@ public class Reactor : ObjectBehaviour
     override protected void Init()
     {
         imageNum = varList.intMap.SyncState($"{uniqueId}_q", status.initImageNum);
-        detectFlag = varList.boolMap.SyncState($"{uniqueId}_d", status.initDetectFlag);
         detect = new ObjectState<bool>().Init(false);
         step = new ObjectState<bool>().Init(false);
         touch = new ObjectState<bool>().Init(false);

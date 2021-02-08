@@ -6,8 +6,8 @@ using UnityEngine;
 public class Item : ObjectBehaviour
 {
     // 基礎ステータス
-    [SerializeField]
-    public ItemObject status;
+    [field: SerializeField]
+    public ItemObject status {get; private set;}
 
     // セーブデータ
     [NonSerialized]

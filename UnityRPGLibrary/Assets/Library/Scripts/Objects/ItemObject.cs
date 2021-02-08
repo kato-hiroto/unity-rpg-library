@@ -20,13 +20,6 @@ public class ItemObject : ScriptableObject
     public float effect = 0f;
     public float cooltime = 0f;
     public EffectShape effectShape = EffectShape.None;
-
-    // イベント
-    public List<EventBehaviour> useActions = new List<EventBehaviour>();
-    public List<EventBehaviour> consumeActions = new List<EventBehaviour>();
-    public List<EventBehaviour> equipActions = new List<EventBehaviour>();
-    public List<EventBehaviour> removeActions = new List<EventBehaviour>();
-    public List<EventBehaviour> executeActions = new List<EventBehaviour>();
 }
 
 public enum ItemTag

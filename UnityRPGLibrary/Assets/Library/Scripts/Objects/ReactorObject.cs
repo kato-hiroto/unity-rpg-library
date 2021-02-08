@@ -12,11 +12,11 @@ public class ReactorObject : ScriptableObject
     // 初期値
     public List<DirectionImage> images = new List<DirectionImage>();
     public int initImageNum = 0;
-    public float initReactionRange = 0;
+    public bool initDetectFlag = false;
 
     // イベント
     public List<EventBehaviour> detectActions = new List<EventBehaviour>();
-    public List<EventBehaviour> loseSightActions = new List<EventBehaviour>();
+    public List<EventBehaviour> leaveActions = new List<EventBehaviour>();
     public List<EventBehaviour> stepActions = new List<EventBehaviour>();
     public List<EventBehaviour> touchActions = new List<EventBehaviour>();
     public List<EventBehaviour> affectActions = new List<EventBehaviour>();

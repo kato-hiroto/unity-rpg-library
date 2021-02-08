@@ -11,6 +11,10 @@ public class Character : Reactor
 
     // グローバル格納値
     [NonSerialized]
+    public ObjectState<Vector3> objPosition;
+    [NonSerialized]
+    public ObjectState<Vector3> objRotation;
+    [NonSerialized]
     public ObjectState<float> hitPoint;
     [NonSerialized]
     public ObjectState<float> magicPoint;
@@ -39,9 +43,10 @@ public class Character : Reactor
     // データロード時・初期処理
     override protected void Init()
     {
+        imageNum = varList.intMap.SyncState($"{uniqueId}_q", status.initImageNum);
+        detectFlag = varList.boolMap.SyncState($"{uniqueId}_d", status.initDetectFlag);
         objPosition = varList.vectorMap.SyncState($"{uniqueId}_p", transform.position);
         objRotation = varList.vectorMap.SyncState($"{uniqueId}_r", transform.rotation.eulerAngles);
-        imageNum = varList.intMap.SyncState($"{uniqueId}_q", status.initImageNum);
         hitPoint = varList.floatMap.SyncState($"{uniqueId}_hp", status.initHitPoint);
         magicPoint = varList.floatMap.SyncState($"{uniqueId}_mp", status.initMagicPoint);
         energyPoint = varList.floatMap.SyncState($"{uniqueId}_ep", status.initEnergyPoint);
@@ -79,7 +84,7 @@ public class Character : Reactor
     // 発見範囲の離脱時に実行される関数
     override public void Leave(Character character)
     {
-        ActExec(status.loseSightActions, character, null);
+        ActExec(status.leaveActions, character, null);
     }
 
     // 通過時に実行される関数

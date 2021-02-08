@@ -13,9 +13,11 @@ public class Reactor : ObjectBehaviour
     [NonSerialized]
     public ObjectState<int> imageNum;
     [NonSerialized]
-    public ObjectState<Vector3> objPosition;
-    [NonSerialized]
-    public ObjectState<Vector3> objRotation;
+    public ObjectState<bool> detectFlag;
+    // [NonSerialized]
+    // public ObjectState<Vector3> objPosition;
+    // [NonSerialized]
+    // public ObjectState<Vector3> objRotation;
 
     // コンポーネント
     [NonSerialized]
@@ -32,10 +34,11 @@ public class Reactor : ObjectBehaviour
     override protected void Init()
     {
         imageNum = varList.intMap.SyncState($"{uniqueId}_q", status.initImageNum);
-        objPosition = varList.vectorMap.SyncState($"{uniqueId}_p", transform.position);
-        objRotation = varList.vectorMap.SyncState($"{uniqueId}_r", transform.rotation.eulerAngles);
-        transform.position = objPosition.GetValue();
-        transform.rotation = Quaternion.Euler(objRotation.GetValue());
+        detectFlag = varList.boolMap.SyncState($"{uniqueId}_d", status.initDetectFlag);
+        // objPosition = varList.vectorMap.SyncState($"{uniqueId}_p", transform.position);
+        // objRotation = varList.vectorMap.SyncState($"{uniqueId}_r", transform.rotation.eulerAngles);
+        // transform.position = objPosition.GetValue();
+        // transform.rotation = Quaternion.Euler(objRotation.GetValue());
         mySprite = GetComponent<SpriteRenderer>();
         mySprite.sprite = status.images[imageNum.GetValue()].GetImage(transform.rotation);
     }
@@ -66,7 +69,7 @@ public class Reactor : ObjectBehaviour
     // 発見範囲の離脱時に実行される関数
     virtual public void Leave(Character character)
     {
-        ActExec(status.loseSightActions, character, null);
+        ActExec(status.leaveActions, character, null);
     }
 
     // 通過時に実行される関数

@@ -9,13 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 38867b434a59e1c40a86848e893e6751, type: 3}
   m_Name: Item
   m_EditorClassIdentifier: Assembly-CSharp::EnemyParamAsset
   itemName: 
   skillName: 
   description: 
-  <itemTags>k__BackingField: 
   initQuantity: 0
   initLevel: 0
   worth: 0
@@ -23,8 +22,8 @@ MonoBehaviour:
   range: 0
   effectShape: 0
   cooltime: 0
-  useAction: {fileID: 0}
-  consumeAction: {fileID: 0}
-  equipAction: {fileID: 0}
-  removeAction: {fileID: 0}
-  executeAction: {fileID: 0}
+  useActions: []
+  consumeActions: []
+  equipActions: []
+  removeActions: []
+  executeActions: []

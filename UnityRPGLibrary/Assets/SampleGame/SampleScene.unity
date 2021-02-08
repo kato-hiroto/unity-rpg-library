@@ -9526,7 +9526,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c436c5dcefa0aa84ab90173b4b03770a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <objectName>k__BackingField: test
   initItemName: player
   initItemAmount: 0
 --- !u!1 &519420028
@@ -9655,23 +9654,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e07da5536ee31454eb77ae38e59d43f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <objectName>k__BackingField: iron_sword
-  <itemName>k__BackingField: "\u9244\u306E\u5263"
-  <skillName>k__BackingField: "\u65AC\u6483 (\u9244\u306E\u5263)"
-  <description>k__BackingField: "\u653B\u6483\u529B20\u3000\u3042\u308A\u3075\u308C\u305F\u9244\u88FD\u306E\u5263\u3002\u6210\u529F\u7387\u306F[\u5263\u8853]\u306E\u719F\u7DF4\u5EA6\u306B\u4F9D\u5B58\u3002"
-  <itemTags>k__BackingField: 
-  <initQuantity>k__BackingField: 0
-  <initLevel>k__BackingField: 0
-  <worth>k__BackingField: 0
-  <effect>k__BackingField: 0
-  <range>k__BackingField: 0
-  <effectShape>k__BackingField: 0
-  <cooltime>k__BackingField: 0
-  useAction: {fileID: 0}
-  consumeAction: {fileID: 0}
-  equipAction: {fileID: 0}
-  removeAction: {fileID: 0}
-  executeAction: {fileID: 0}
+  status: {fileID: 11400000, guid: c29cddd8fbeaf524c9b6e15a1ad77946, type: 2}
 --- !u!1 &1297190901
 GameObject:
   m_ObjectHideFlags: 0

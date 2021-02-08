@@ -38,7 +38,7 @@ public class Character : Reactor
         magicPoint = varList.floatMap.SyncState($"{uniqueId}_mp", status.initMagicPoint);
         energyPoint = varList.floatMap.SyncState($"{uniqueId}_ep", status.initEnergyPoint);
         moveSpeed = varList.floatMap.SyncState($"{uniqueId}_spe", status.initMoveSpeed);
-        movePattern = varList.intMap.SyncState($"{uniqueId}_pat", status.initMovePattern);
+        movePattern = varList.intMap.SyncState($"{uniqueId}_pat", (int)status.initMovePattern);
         imageNum = varList.intMap.SyncState($"{uniqueId}_q", status.initImageNum);
         target = new ObjectState<bool>().Init(false);
         transform.position = objPosition.GetValue();

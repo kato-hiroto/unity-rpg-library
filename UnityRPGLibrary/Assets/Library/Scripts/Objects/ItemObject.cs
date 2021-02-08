@@ -1,13 +1,14 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "Item", menuName = "ScriptableObjects/CreateItemAsset")]
+[CreateAssetMenu(fileName = "Item", menuName = "ScriptableObjects/Create_Item")]
 public class ItemObject : ScriptableObject
 {
     // 基本情報
     public string itemName = "";
     public string skillName = "";
-    public string description = "";
+    public string itemDescription = "";
+    public string skillDescription = "";
     public List<ItemTag> itemTags = new List<ItemTag>();  // 何かしらの属性 (装備可能キャラの指定など)
 
     // 初期値

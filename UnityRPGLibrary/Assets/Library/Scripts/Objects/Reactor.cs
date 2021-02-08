@@ -5,35 +5,9 @@ using UnityEngine;
 [Serializable]
 public class Reactor : ObjectBehaviour
 {
-    // オブジェクト名
-    [field: SerializeField]
-    override public string objectName {get; protected set;} = "";
-
-    // 基本情報
-    [field: SerializeField]
-    public string reactorName {get; private set;} = "";
-    [field: SerializeField]
-    public string description {get; private set;} = "";
-    [field: SerializeField]
-    public List<ReactorTag> reactorTags {get; private set;} = new List<ReactorTag>();  // 何かしらの属性
-
-    // 初期値
-    [field: SerializeField]
-    public List<DirectionImage> images {get; private set;}
-    [field: SerializeField]
-    public int initImageNum {get; private set;} = 0;
-
-    // イベント
+    // 基礎ステータス
     [SerializeField]
-    public EventBehaviour approachAction = null;
-    [SerializeField]
-    public EventBehaviour stepAction = null;
-    [SerializeField]
-    public EventBehaviour touchAction = null;
-    [SerializeField]
-    public EventBehaviour checkAction = null;
-    [SerializeField]
-    public EventBehaviour affectAction = null;
+    public ReactorObject status;
 
     // グローバル格納値
     [NonSerialized]
@@ -47,17 +21,23 @@ public class Reactor : ObjectBehaviour
     [NonSerialized]
     private SpriteRenderer mySprite;
 
+    // ステータスの挿入
+    public void SetStatus(string uniqueId, ReactorObject status)
+    {
+        this.status = status;
+        FirstSetting(uniqueId);
+    }
 
     // データロード時・初期処理
     override protected void Init()
     {
-        imageNum = varList.intMap.SyncState($"{uniqueID}_q", initImageNum);
-        objPosition = varList.vectorMap.SyncState($"{uniqueID}_p", transform.position);
-        objRotation = varList.vectorMap.SyncState($"{uniqueID}_r", transform.rotation.eulerAngles);
+        imageNum = varList.intMap.SyncState($"{uniqueId}_q", status.initImageNum);
+        objPosition = varList.vectorMap.SyncState($"{uniqueId}_p", transform.position);
+        objRotation = varList.vectorMap.SyncState($"{uniqueId}_r", transform.rotation.eulerAngles);
         transform.position = objPosition.GetValue();
         transform.rotation = Quaternion.Euler(objRotation.GetValue());
         mySprite = GetComponent<SpriteRenderer>();
-        mySprite.sprite = images[imageNum.GetValue()].GetImage(transform.rotation);
+        mySprite.sprite = status.images[imageNum.GetValue()].GetImage(transform.rotation);
     }
 
     // すべての初期処理終了後に呼ばれる関数
@@ -68,43 +48,39 @@ public class Reactor : ObjectBehaviour
     // 接近時に実行される関数
     virtual public void Approach(Character character)
     {
-        if (approachAction == null) return;
-        approachAction.AtExecute(character, this, null);
+        if (status.approachAction == null) return;
+        status.approachAction.AtExecute(character, this, null);
     }
 
     // 通過時に実行される関数
     virtual public void Step(Character character)
     {
-        if (stepAction == null) return;
-        stepAction.AtExecute(character, this, null);
+        if (status.stepAction == null) return;
+        status.stepAction.AtExecute(character, this, null);
     }
 
     // 接触時に実行される関数
     virtual public void Touch(Character character)
     {
-        if (touchAction == null) return;
-        touchAction.AtExecute(character, this, null);
+        if (status.touchAction == null) return;
+        status.touchAction.AtExecute(character, this, null);
     }
 
     // 「調べる」時に実行される関数
     virtual public void Check(Character character)
     {
-        if (checkAction == null) return;
-        checkAction.AtExecute(character, this, null);
+        if (status.checkAction == null) return;
+        status.checkAction.AtExecute(character, this, null);
     }
 
     // アイテム・技能による干渉時に実行される関数
     virtual public void Affect(Character character, Item item)
     {
-        if (affectAction == null) return;
-        affectAction.AtExecute(character, this, item);
+        if (status.affectAction == null) return;
+        status.affectAction.AtExecute(character, this, item);
     }
 }
 
-public enum ReactorTag
-{
-    None
-}
 
 // 回転方向に基づいて変化する画像
 [Serializable]

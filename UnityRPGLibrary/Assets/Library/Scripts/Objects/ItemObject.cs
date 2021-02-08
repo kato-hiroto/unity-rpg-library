@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "Item", menuName = "ScriptableObjects/CreateItemAsset")]
-public class EnemyParamAsset : ScriptableObject
+public class ItemObject : ScriptableObject
 {
     // 基本情報
     [field: SerializeField]

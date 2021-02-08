@@ -16,17 +16,22 @@ abstract public class ObjectBehaviour : MonoBehaviour
     abstract protected void Init();
     abstract protected void AfterInit();
 
-    // IDの設定，初期処理開始
+    // Awake is called when the script instance is being loaded.
+    void Awake()
+    {
+        taskStream = ObjectStream.getInstance();
+    }
+
+    // IDの設定，Initの登録
     protected void StartSetting(string uniqueId)
     {
         this.uniqueId = uniqueId;
-        taskStream = ObjectStream.getInstance();
         varList.AddInitTrigger(uniqueId, Init);
         Init();
         this.enabled = true;
     }
 
-    // AfterInitをvarListに関連付ける，初期処理終了
+    // AfterInitの登録
     protected void EndSetting()
     {
         if (uniqueId == "") return;

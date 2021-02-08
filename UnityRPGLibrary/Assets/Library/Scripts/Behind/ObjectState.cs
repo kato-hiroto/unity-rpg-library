@@ -26,6 +26,15 @@ public class ObjectState<T>
         return this;
     }
 
+    public ObjectState<T> Init(T initValue)
+    {
+        name = "";
+        value = initValue;
+        getTriggers = new Dictionary<string, Callback>();
+        setTriggers = new Dictionary<string, Callback>();
+        return this;
+    }
+
     public ObjectState<T> Init(string initName, T initValue)
     {
         name = initName;

@@ -25,9 +25,19 @@ public class Character : Reactor
     [NonSerialized]
     public ObjectState<int> movePattern;    // None, Random, Escape, Attack
 
+    // ローカル反応変数
+    [NonSerialized]
+    public ObjectState<bool> target;
+
     // 関連オブジェクト
     [field: SerializeField]
     public ItemList equippingItems {get; private set;} = null;
+
+    // 初期配置オブジェクトの初期化
+    void Start()
+    {
+        StartSetting(uniqueId);
+    }
 
     // ステータスの挿入
     public void Setting(string uniqueId, CharacterObject status)
@@ -38,9 +48,7 @@ public class Character : Reactor
 
     // データロード時・初期処理
     override protected void Init()
-    {
-        imageNum = varList.intMap.SyncState($"{uniqueId}_q", status.initImageNum);
-        detectFlag = varList.boolMap.SyncState($"{uniqueId}_d", status.initDetectFlag);
+    {   
         objPosition = varList.vectorMap.SyncState($"{uniqueId}_p", transform.position);
         objRotation = varList.vectorMap.SyncState($"{uniqueId}_r", transform.rotation.eulerAngles);
         hitPoint = varList.floatMap.SyncState($"{uniqueId}_hp", status.initHitPoint);
@@ -48,65 +56,19 @@ public class Character : Reactor
         energyPoint = varList.floatMap.SyncState($"{uniqueId}_ep", status.initEnergyPoint);
         moveSpeed = varList.floatMap.SyncState($"{uniqueId}_spe", status.initMoveSpeed);
         movePattern = varList.intMap.SyncState($"{uniqueId}_pat", status.initMovePattern);
+        imageNum = varList.intMap.SyncState($"{uniqueId}_q", status.initImageNum);
+        detectFlag = varList.boolMap.SyncState($"{uniqueId}_d", status.initDetectFlag);
+        detect = new ObjectState<bool>().Init(false);
+        step = new ObjectState<bool>().Init(false);
+        touch = new ObjectState<bool>().Init(false);
+        affect = new ObjectState<bool>().Init(false);
+        target = new ObjectState<bool>().Init(false);
         transform.position = objPosition.GetValue();
         transform.rotation = Quaternion.Euler(objRotation.GetValue());
-        base.Init();
+        mySprite = GetComponent<SpriteRenderer>();
+        mySprite.sprite = status.images[imageNum.GetValue()].GetImage(transform.rotation);
     }
 
     // すべての初期処理終了後に呼ばれる関数
     override protected void AfterInit(){}
-
-    // 関数の実行
-    void ActExec(List<EventBehaviour> acts, Character character, Item item)
-    {
-        if (acts != null && acts.Count > 0)
-        {
-            foreach (var act in acts)
-            {
-                act.VsExecute(character, this, item);
-            }
-        } 
-    }
-
-    // 発見時に実行される関数
-    override public void Detect(Character character)
-    {
-        ActExec(status.detectActions, character, null);
-    }
-
-    // 発見範囲の離脱時に実行される関数
-    override public void Leave(Character character)
-    {
-        ActExec(status.leaveActions, character, null);
-    }
-
-    // 通過時に実行される関数
-    override public void Step(Character character)
-    {
-        ActExec(status.stepActions, character, null);
-    }
-
-    // 接触時に実行される関数
-    override public void Touch(Character character)
-    {
-        ActExec(status.touchActions, character, null);
-    }
-
-    // アイテム・技能による干渉時に実行される関数
-    override public void Affect(Character character, Item item)
-    {
-        ActExec(status.affectActions, character, item);
-    }
-
-    // ターゲッティングされた時に実行される関数
-    public void Target(Character character, Item item)
-    {
-        ActExec(status.targetActions, character, item);
-    }
-
-    // ターゲッティングが解除された時に実行される関数
-    public void Untarget(Character character, Item item)
-    {
-        ActExec(status.untargetActions, character, item);
-    }
 }

@@ -1,5 +1,6 @@
-using UnityEngine;
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "Reactor", menuName = "ScriptableObjects/CreateReactorAsset")]
 public class ReactorObject : ScriptableObject
@@ -25,4 +26,26 @@ public class ReactorObject : ScriptableObject
 public enum ReactorTag
 {
     None
+}
+
+[Serializable]
+public class DirectionImage
+{
+    [field: SerializeField]
+    public List<Sprite> images {get; private set;}  // 下(正面)から時計回り
+
+    public Sprite GetImage(Quaternion quat)
+    {
+        if (images.Count < 1)
+        {
+            return null;
+        }
+        else
+        {
+            Vector3 vec = quat.eulerAngles;
+            float angleUnit = 2 * Mathf.PI / images.Count;
+            int index = Mathf.FloorToInt(Mathf.Atan2(-vec.x, -vec.y) / angleUnit);
+            return images[index];
+        }
+    }
 }

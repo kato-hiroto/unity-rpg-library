@@ -9,11 +9,21 @@ public class Item : ObjectBehaviour
     [SerializeField]
     public ItemObject status;
 
-    // グローバル格納値
+    // セーブデータ
     [NonSerialized]
     public ObjectState<int> quantity;
     [NonSerialized]
     public ObjectState<float> level;
+
+    // ローカル反応変数
+    [NonSerialized]
+    public ObjectState<bool> use;
+    [NonSerialized]
+    public ObjectState<bool> consume;
+    [NonSerialized]
+    public ObjectState<bool> equip;
+    [NonSerialized]
+    public ObjectState<bool> execute;
 
     // ステータスの挿入
     public void Setting(string uniqueId, ItemObject status)
@@ -27,50 +37,12 @@ public class Item : ObjectBehaviour
     {
         quantity = varList.intMap.SyncState($"{uniqueId}_q", status.initQuantity);
         level = varList.floatMap.SyncState($"{uniqueId}_l", status.initLevel);
+        use = new ObjectState<bool>().Init(false);
+        consume = new ObjectState<bool>().Init(false);
+        equip = new ObjectState<bool>().Init(false);
+        execute = new ObjectState<bool>().Init(false);
     }
 
     // すべての初期処理終了後に呼ばれる関数
     override protected void AfterInit(){}
-
-    // 関数の実行
-    void ActExec(List<EventBehaviour> acts, Character character)
-    {
-        if (acts != null && acts.Count > 0)
-        {
-            foreach (var act in acts)
-            {
-                act.AtExecute(character, null, this);
-            }
-        } 
-    }
-
-    // 「使用」時に実行される関数
-    public void Use(Character character)
-    {
-        ActExec(status.useActions, character);
-    }
-
-    // 「消費」時に実行される関数
-    public void Consume(Character character)
-    {
-        ActExec(status.consumeActions, character);
-    }
-
-    // 「装備をつける」時に実行される関数
-    public void Equip(Character character)
-    {
-        ActExec(status.equipActions, character);
-    }
-
-    // 「装備を外す」時に実行される関数
-    public void Remove(Character character)
-    {
-        ActExec(status.removeActions, character);
-    }
-
-    // 「技能実行」時に実行される関数
-    public void Execute(Character character)
-    {
-        ActExec(status.executeActions, character);
-    }
 }

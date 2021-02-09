@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38867b434a59e1c40a86848e893e6751, type: 3}
+  m_Name: IronSword
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyParamAsset
+  itemName: "\u9244\u306E\u5263"
+  skillName: "\u65AC\u6483[\u4E26]"
+  itemDescription: "\u58F2\u5024100\u3000\u3042\u308A\u3075\u308C\u305F\u9244\u88FD\u306E\u5263\u3002"
+  skillDescription: "\u8FD1\u63A5\u3000\u5A01\u529B10\u3000\u719F\u7DF4\u5EA6\u306F[\u5263\u8853]\u53C2\u7167\u3002"
+  itemTags: 
+  initQuantity: 1
+  initLevel: 30
+  worth: 100
+  range: 1
+  effect: 10
+  cooltime: 1000
+  effectShape: 2

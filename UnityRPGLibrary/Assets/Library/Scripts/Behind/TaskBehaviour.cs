@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-abstract public class ObjectBehaviour : MonoBehaviour
+abstract public class TaskBehaviour : MonoBehaviour
 {
     // オブジェクトID
     [field: SerializeField]
@@ -10,9 +10,16 @@ abstract public class ObjectBehaviour : MonoBehaviour
 
     // グローバル格納値
     protected ObjectStateList varList = ObjectStateList.getInstance();
+    protected ObjectStream taskStream;
 
     // データロード時・初期処理
-    abstract protected void Init();
+    abstract protected void AfterInit();
+
+    // Awake is called when the script instance is being loaded.
+    void Awake()
+    {
+        taskStream = ObjectStream.getInstance();
+    }
 
     /// Start is called on the frame when a script is enabled just before
     /// any of the Update methods is called the first time.
@@ -21,12 +28,12 @@ abstract public class ObjectBehaviour : MonoBehaviour
         SetID(this.uniqueId);
     }
 
-    // IDの設定，Initの登録
+    // IDの設定，AfterInitの登録
     protected void SetID(string initUniqueId)
     {
         if (initUniqueId == "") return;
         this.uniqueId = initUniqueId;
-        varList.AddInitTrigger(uniqueId, Init);
-        Init();
+        varList.AddAfterTrigger(uniqueId, AfterInit);
+        AfterInit();
     }
 }

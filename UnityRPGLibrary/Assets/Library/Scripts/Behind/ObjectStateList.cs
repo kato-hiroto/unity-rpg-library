@@ -27,6 +27,8 @@ public class ObjectStateList
     public ObjectStateMapper<float> floatMap;
     [SerializeField]
     public ObjectStateMapper<Vector3> vectorMap;
+    [SerializeField]
+    public ObjectStateMapper<float> timeLimitMap;
 
     // シングルトンの取得
     public static ObjectStateList getInstance()
@@ -97,6 +99,7 @@ public class ObjectStateList
             stringMap = data.stringMap.makeMap();
             floatMap = data.floatMap.makeMap();
             vectorMap = data.vectorMap.makeMap();
+            timeLimitMap = data.timeLimitMap.makeMap();
             DoInit();
             Debug.Log($"ロード path: {path}");
         }
@@ -149,5 +152,17 @@ public class ObjectStateMapper<T>
             map[elem.GetName()] = elem;
         }
         return this;
+    }
+
+    // 除去
+    public void RemoveState(string name)
+    {
+        Init();
+        if (map.ContainsKey(name))
+        {
+            var state = map[name];
+            map.Remove(name);
+            list.Remove(state);
+        }
     }
 }

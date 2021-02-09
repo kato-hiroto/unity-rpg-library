@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -10,10 +9,8 @@ public class Character : ObjectBehaviour
     public bool isMobile {get; private set;}
     [field: SerializeField]
     public CharacterObject status {get; private set;}
-    [field: SerializeField]
-    public string initUniqueId {get; private set;}
 
-    // グローバル格納値
+    // セーブデータ
     [NonSerialized]
     public ObjectState<int> imageNum;
     [NonSerialized]
@@ -44,25 +41,19 @@ public class Character : ObjectBehaviour
     public ObjectState<bool> target;
 
     // コンポーネント
-    [NonSerialized]
-    protected SpriteRenderer mySprite;
+    [field: NonSerialized]
+    public SpriteRenderer mySprite {get; private set;} = null;
 
     // 関連オブジェクト
-    [field: SerializeField]
+    [field: NonSerialized]
     public OBList equippingItems {get; private set;} = null;
 
-    // 初期配置オブジェクトの初期化
-    void Start()
-    {
-        StartSetting(initUniqueId);
-    }
-
     // Cloneオブジェクトの初期化
-    public void Setting(string uniqueId, bool mobile, CharacterObject status)
+    public void Setting(string initUniqueId, bool initMobile, CharacterObject initStatus)
     {
-        this.status = status;
-        this.isMobile = mobile;
-        StartSetting(uniqueId);
+        this.status = initStatus;
+        this.isMobile = initMobile;
+        SetID(initUniqueId);
     }
 
     // データロード時・初期処理
@@ -112,7 +103,4 @@ public class Character : ObjectBehaviour
         mySprite = GetComponent<SpriteRenderer>();
         mySprite.sprite = status.images[imageNum.GetValue()].GetImage(transform.rotation);
     }
-
-    // すべての初期処理終了後に呼ばれる関数
-    override protected void AfterInit(){}
 }

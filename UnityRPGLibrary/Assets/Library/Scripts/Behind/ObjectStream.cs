@@ -9,10 +9,12 @@ public class ObjectStream : MonoBehaviour
     // 実行キューの処理
     private Queue<StreamTask> queue = new Queue<StreamTask>();
     private bool executing = false;
+    
+    // グローバル格納値
+    private ObjectStateList varList = ObjectStateList.getInstance();
 
     // タイマーの処理
     private Dictionary<string, StreamTask> timeline = new Dictionary<string, StreamTask>();
-    private Dictionary<string, float> timelimit = new Dictionary<string, float>();
 
     // 無限ループの処理
     private Dictionary<string, StreamTask> loop = new Dictionary<string, StreamTask>();
@@ -67,19 +69,21 @@ public class ObjectStream : MonoBehaviour
         if (!timeline.ContainsKey(name))
         {
             timeline.Add(name, task);
-            timelimit.Add(name, limit);
+            varList.timeLimitMap.SyncState(name, limit);
         }
     }
 
     // タイマーの実行
     private void ExecuteTimer(string name)
     {
-        timelimit[name] -= Time.deltaTime;
-        if (timelimit[name] < 0f)
+        var timeLimit = varList.timeLimitMap.SyncState(name, 0f);
+        var value = timeLimit.GetValue() - Time.deltaTime;
+        timeLimit.SetValue(value);
+        if (value < 0f)
         {
             timeline[name]();
             timeline.Remove(name);
-            timelimit.Remove(name);
+            varList.timeLimitMap.RemoveState(name);
         }
     }
 
@@ -89,7 +93,7 @@ public class ObjectStream : MonoBehaviour
         if (timeline.ContainsKey(name))
         {
             timeline.Remove(name);
-            timelimit.Remove(name);
+            varList.timeLimitMap.RemoveState(name);
         }
     }
 

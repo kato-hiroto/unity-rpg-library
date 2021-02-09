@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -26,10 +25,10 @@ public class Item : ObjectBehaviour
     public ObjectState<bool> execute;
 
     // ステータスの挿入
-    public void Setting(string uniqueId, ItemObject status)
+    public void Setting(string initUniqueId, ItemObject initStatus)
     {
-        this.status = status;
-        StartSetting(uniqueId);
+        this.status = initStatus;
+        SetID(initUniqueId);
     }
 
     // データロード時・初期処理
@@ -42,7 +41,4 @@ public class Item : ObjectBehaviour
         equip = new ObjectState<bool>().Init(false);
         execute = new ObjectState<bool>().Init(false);
     }
-
-    // すべての初期処理終了後に呼ばれる関数
-    override protected void AfterInit(){}
 }

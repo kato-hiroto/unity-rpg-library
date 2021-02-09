@@ -18,6 +18,9 @@ public class CharacterObject : ScriptableObject
     public float initEnergyPoint = 0f;
     public float initMoveSpeed = 0f;
     public MovePatternTag initMovePattern = MovePatternTag.None;
+
+    // コントローラ
+    public List<TaskBehaviour> controllers = new List<TaskBehaviour>();
 }
 
 public enum CharacterTag

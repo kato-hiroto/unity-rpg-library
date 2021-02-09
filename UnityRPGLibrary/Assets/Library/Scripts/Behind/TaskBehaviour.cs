@@ -14,6 +14,8 @@ abstract public class TaskBehaviour : MonoBehaviour
 
     // データロード時・初期処理
     abstract protected void AfterInit();
+    abstract public void Setting(Item item);
+    abstract public void Setting(Character character);
 
     // Awake is called when the script instance is being loaded.
     void Awake()
@@ -21,8 +23,7 @@ abstract public class TaskBehaviour : MonoBehaviour
         taskStream = ObjectStream.getInstance();
     }
 
-    /// Start is called on the frame when a script is enabled just before
-    /// any of the Update methods is called the first time.
+    /// Start is called on the frame when a script is enabled just before any of the Update methods is called the first time.
     void Start()
     {
         SetID(this.uniqueId);

@@ -9,7 +9,6 @@ public class ObjectState<T>
     public delegate void Callback(T s);
 
     // 値参照・更新時の処理
-    // private Dictionary<string, Callback> getTriggers;
     private Dictionary<string, Callback> setTriggers;
 
     // 保持する値
@@ -21,7 +20,6 @@ public class ObjectState<T>
     // 初期化処理
     public ObjectState<T> Init()
     {
-        // getTriggers = new Dictionary<string, Callback>();
         setTriggers = new Dictionary<string, Callback>();
         return this;
     }
@@ -30,7 +28,6 @@ public class ObjectState<T>
     {
         name = "";
         value = initValue;
-        // getTriggers = new Dictionary<string, Callback>();
         setTriggers = new Dictionary<string, Callback>();
         return this;
     }
@@ -39,7 +36,6 @@ public class ObjectState<T>
     {
         name = initName;
         value = initValue;
-        // getTriggers = new Dictionary<string, Callback>();
         setTriggers = new Dictionary<string, Callback>();
         return this;
     }
@@ -53,10 +49,6 @@ public class ObjectState<T>
     // ゲッター
     public T GetValue()
     {
-        // foreach (var getTrigger in getTriggers)
-        // {
-        //     getTrigger.Value(value);
-        // }
         return value;
     }
 
@@ -69,18 +61,6 @@ public class ObjectState<T>
             setTrigger.Value(newValue);
         }
     }
-
-    // getTriggersへの追加
-    // public void AddGetTrigger(string name, Callback callback)
-    // {
-    //     if (!getTriggers.ContainsKey(name)) getTriggers.Add(name, callback);
-    // }
-
-    // // getTriggersからの削除
-    // public void RemoveGetTrigger(string name)
-    // {
-    //     if (getTriggers.ContainsKey(name)) getTriggers.Remove(name);
-    // }
 
     // setTriggersへの追加
     public void AddSetTrigger(string name, Callback callback)

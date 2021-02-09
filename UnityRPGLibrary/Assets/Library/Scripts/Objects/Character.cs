@@ -102,5 +102,11 @@ public class Character : ObjectBehaviour
         // 表示画像の同期
         mySprite = GetComponent<SpriteRenderer>();
         mySprite.sprite = status.images[imageNum.GetValue()].GetImage(transform.rotation);
+
+        // コントローラの初期化
+        foreach (var controller in status.controllers)
+        {
+            controller.Setting(this);
+        }
     }
 }

@@ -41,7 +41,9 @@ public class MoveController : TaskBehaviour
     private NavMeshPath path;
 
     // ステータスの挿入
-    public void Setting(Character initCharacter)
+    override public void Setting(Item initItem){}
+
+    override public void Setting(Character initCharacter)
     {
         this.character = initCharacter;
         SetID($"{initCharacter.uniqueId}_move");

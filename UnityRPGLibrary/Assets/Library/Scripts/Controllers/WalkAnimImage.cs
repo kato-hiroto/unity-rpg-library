@@ -15,17 +15,19 @@ public class WalkAnimImage
 
     public Sprite GetImage(Quaternion quat, bool isStopped = false)
     {
-        if (walkAnim.images.Count < 1)
+        int count = walkAnim.images.Count;
+        if (count < 1)
         {
             return null;
         }
         else
         {
-            Vector3 vec = quat.eulerAngles;
-            float angleUnit = 2 * Mathf.PI / walkAnim.images.Count;
-            int index = Mathf.FloorToInt(Mathf.Atan2(-vec.x, -vec.y) / angleUnit);
+            Vector3 vec = quat * Vector3.right;
+            float baseAngle = 7f * Mathf.PI / 2f;   // (3/2pi + 2pi)
+            float angleUnit = 2 * Mathf.PI / count;
+            int index = Mathf.FloorToInt((baseAngle - Mathf.Atan2(-vec.x, -vec.y)) / angleUnit);
             prevAnim = isStopped ? 0 : (prevAnim + 1) % 4;
-            prevIndex = index;
+            prevIndex = index % count;
             return walkAnim.GetSprite(prevIndex, prevAnim);
         }
     }

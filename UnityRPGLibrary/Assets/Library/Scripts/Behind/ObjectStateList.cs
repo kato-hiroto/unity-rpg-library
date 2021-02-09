@@ -29,15 +29,18 @@ public class ObjectStateList
     public ObjectStateMapper<Vector3> vectorMap;
 
     // シングルトンの取得
-    public static ObjectStateList getInstance() {
-        if (mInstance == null) {
+    public static ObjectStateList getInstance()
+    {
+        if (mInstance == null)
+        {
             mInstance = new ObjectStateList();
         }
         return mInstance;
     }
 
     // 初期化処理の実行
-    private void DoInit() {
+    private void DoInit()
+    {
         foreach (var initTrigger in initTriggers)
         {
             initTrigger.Value();
@@ -73,7 +76,8 @@ public class ObjectStateList
     }
 
     // セーブ
-    public void Save(string filename) {
+    public void Save(string filename)
+    {
         string json = JsonUtility.ToJson(this);
         string path = Application.persistentDataPath + $"/savedata_{filename}.json";
         File.WriteAllText(path, json);
@@ -81,7 +85,8 @@ public class ObjectStateList
     }
 
     // ロード
-    public void Load(string filename) {
+    public void Load(string filename)
+    {
         string path = Application.persistentDataPath + $"/savedata_{filename}.json";
         if (File.Exists(path))
         {

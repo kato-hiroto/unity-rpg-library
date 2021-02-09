@@ -21,8 +21,10 @@ public class ObjectStream : MonoBehaviour
     private static ObjectStream mInstance;
 
     // シングルトンの取得
-    public static ObjectStream getInstance() {
-        if (mInstance == null) {
+    public static ObjectStream getInstance()
+    {
+        if (mInstance == null)
+        {
             var tmpObj = new GameObject("ObjectStream");
             mInstance = tmpObj.AddComponent<ObjectStream>();
         }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 abstract public class ObjectBehaviour : MonoBehaviour
 {
     // オブジェクトID
-    protected string uniqueId = "";
+    public string uniqueId {get; private set;} = "";
 
     // グローバル格納値
     protected ObjectStateList varList = ObjectStateList.getInstance();

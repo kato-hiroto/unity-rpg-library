@@ -77,7 +77,7 @@ public class ObjectState<T>
     }
 
     // getTriggersからの削除
-    public void DeleteGetTrigger(string name)
+    public void RemoveGetTrigger(string name)
     {
         if (getTriggers.ContainsKey(name)) getTriggers.Remove(name);
     }
@@ -89,7 +89,7 @@ public class ObjectState<T>
     }
 
     // setTriggersからの削除
-    public void DeleteSetTrigger(string name)
+    public void RemoveSetTrigger(string name)
     {
         if (setTriggers.ContainsKey(name)) setTriggers.Remove(name);
     }

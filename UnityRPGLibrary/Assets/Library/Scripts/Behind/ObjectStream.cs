@@ -84,7 +84,7 @@ public class ObjectStream : MonoBehaviour
     }
 
     // タイマーから削除
-    public void DeleteTimer(string name)
+    public void RemoveTimer(string name)
     {
         if (timeline.ContainsKey(name))
         {
@@ -103,7 +103,7 @@ public class ObjectStream : MonoBehaviour
     }
 
     // 無限ループから削除
-    public void DeleteLoop(string name)
+    public void RemoveLoop(string name)
     {
         if (loop.ContainsKey(name))
         {

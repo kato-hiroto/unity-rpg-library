@@ -32,7 +32,7 @@ abstract public class ObjectBehaviour : MonoBehaviour
     }
 
     // AfterInitの登録
-    protected void EndSetting()
+    private void EndSetting()
     {
         if (uniqueId == "") return;
         varList.AddAfterTrigger(uniqueId, AfterInit);
@@ -40,6 +40,7 @@ abstract public class ObjectBehaviour : MonoBehaviour
         this.enabled = false;
     }
 
+    // EndSetting 実行専用
     void Update()
     {
         EndSetting();

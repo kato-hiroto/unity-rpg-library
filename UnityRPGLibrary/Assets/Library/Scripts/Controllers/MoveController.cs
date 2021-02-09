@@ -26,28 +26,29 @@ public class MoveController : ObjectBehaviour
     private NavMeshAgent agent;
     private NavMeshHit hit;
     private NavMeshPath path;
-    
+
+    void Start()
+    {
+    }
+
     // データロード時・初期処理
     override protected void Init()
     {
         agent = GetComponent<NavMeshAgent>();
+        hit = new NavMeshHit();
         path = new NavMeshPath();
     }
 
     // すべての初期処理終了後に呼ばれる関数
-    override protected void AfterInit(){}
+    override protected void AfterInit(){
+        StartSetting($"{character.uniqueId}_move");
+    }
 
     // cos距離の計算
     private float CosSimilarity(Vector3 a, Vector3 b)
     {
         float denom = a.magnitude * b.magnitude;
         return denom == 0 ? -1 : Vector3.Dot(a, b) / denom;
-    }
-
-    // 直線による移動可能性の判定
-    private bool isMovable(Vector3 targetPos)
-    {
-        return !agent.Raycast(targetPos, out hit);
     }
 
     // 移動したい方向ベスト3の決定 (Vector3)
@@ -64,25 +65,33 @@ public class MoveController : ObjectBehaviour
             .ConvertAll(x => x.Item2);
     }
 
-    // 移動
+    // targetPos へ行くために1マス移動
     public void Move(Vector3 targetPos)
     {
         if (isMoving) return;
-        var charId = character.uniqueId;
-        var nowPos = character.objPosition.GetValue();
-        var dirs = GetNearDirection(nowPos, targetPos);
+    
+        Vector3 nowPos = character.objPosition.GetValue();
+        List<Vector3> dirs = GetNearDirection(nowPos, targetPos);
         if (dirs.Count <= 0) return;
+
         foreach (var dir in dirs)
         {
-            if (isMovable(nowPos + dir))
+            Vector3 endPos = nowPos + dir;
+            if (agent.Raycast(targetPos, out hit)) continue;    // 直線上に障害物がある
+
+            float speed = character.moveSpeed.GetValue();
+            taskStream.AddLoop(uniqueId, () =>
             {
-                // 移動開始
-                taskStream.AddLoop($"{charId}_move", () =>
-                {
-                    transform.Translate((nowPos + dir) * Time.deltaTime * character.moveSpeed.GetValue());
-                });
-                break;
-            }
+                transform.Translate(endPos * Time.deltaTime * speed);
+            });
+            taskStream.AddTimer(uniqueId, 1f / speed, () =>
+            {
+                taskStream.RemoveLoop(uniqueId);
+                character.objPosition.SetValue(endPos);
+                isMoving = false;
+            });
+            isMoving = true;
+            break;
         }
     }
 }

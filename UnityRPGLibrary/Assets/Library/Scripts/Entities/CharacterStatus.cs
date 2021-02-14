@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Character", menuName = "ScriptableObjects/Create_Character")]
-public class CharacterObject : ScriptableObject
+public class CharacterStatus : ScriptableObject
 {
     // 基本情報
     public string characterName = "";
@@ -12,7 +12,7 @@ public class CharacterObject : ScriptableObject
 
     // 初期値
     public int initImageNum = 0;
-    public List<WalkAnimImage> images = new List<WalkAnimImage>();
+    public List<Anim2D> images = new List<Anim2D>();
     public float initHitPoint = 0f;
     public float initMagicPoint = 0f;
     public float initEnergyPoint = 0f;
@@ -20,7 +20,7 @@ public class CharacterObject : ScriptableObject
     public MovePatternTag initMovePattern = MovePatternTag.None;
 
     // コントローラ
-    public List<TaskBehaviour> controllers = new List<TaskBehaviour>();
+    public List<TaskBehaviour<Character>> controllers = new List<TaskBehaviour<Character>>();
 }
 
 public enum CharacterTag

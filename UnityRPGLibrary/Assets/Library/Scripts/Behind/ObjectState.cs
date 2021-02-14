@@ -5,17 +5,17 @@ using UnityEngine;
 [Serializable]
 public class ObjectState<T>
 {
-    // デリゲート定義
-    public delegate void Callback(T s);
-
-    // 値参照・更新時の処理
-    private Dictionary<string, Callback> setTriggers;
-
     // 保持する値
     [SerializeField]
     private string name = "";
     [SerializeField]
     private T value = default(T);
+
+    // デリゲート定義
+    public delegate void Callback(T s);
+
+    // 値参照・更新時の処理
+    private Dictionary<string, Callback> setTriggers;
 
     // 初期化処理
     public ObjectState<T> Init()
@@ -46,7 +46,7 @@ public class ObjectState<T>
         return name;
     }
 
-    // ゲッター
+    // 値のゲッター
     public T GetValue()
     {
         return value;

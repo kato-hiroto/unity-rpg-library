@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class WalkAnimImage
+public class Anim2D
 {
     // Spriteのリスト
     [field: SerializeField]
-    public WalkAnimObject walkAnim {get; private set;}
+    public Anim2DStatus walkAnim {get; private set;}
 
     // 直前の値
     private int prevIndex = 0;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MoveController : TaskBehaviour
+public class MoveController : TaskBehaviour<Character>
 {
     // 対応付け
     static private List< Tuple<int, Vector3> > eightDirs = new List< Tuple<int, Vector3> >{
@@ -41,8 +41,6 @@ public class MoveController : TaskBehaviour
     private NavMeshPath path;
 
     // ステータスの挿入
-    override public void Setting(Item initItem){}
-
     override public void Setting(Character initCharacter)
     {
         this.character = initCharacter;

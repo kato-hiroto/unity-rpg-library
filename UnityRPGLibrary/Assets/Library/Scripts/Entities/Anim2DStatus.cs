@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "WalkAnim", menuName = "ScriptableObjects/Create_WalkAnim")]
-public class WalkAnimObject : ScriptableObject
+[CreateAssetMenu(fileName = "Anim2D", menuName = "ScriptableObjects/Create_Anim2D")]
+public class Anim2DStatus : ScriptableObject
 {
     // 下(正面)から時計回りに0-7を対応付けると 0,1,2,5,6,7,4,3 の順番
     // 1 → 0,2 → 3

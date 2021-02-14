@@ -2,11 +2,11 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class Item : ObjectBehaviour
+public class Item : StuffBehaviour
 {
     // 基礎ステータス
     [field: SerializeField]
-    public ItemObject status {get; private set;}
+    public ItemStatus status {get; private set;}
 
     // セーブデータ
     [NonSerialized]
@@ -25,7 +25,7 @@ public class Item : ObjectBehaviour
     public ObjectState<bool> execute;
 
     // ステータスの挿入
-    public void Setting(string initUniqueId, ItemObject initStatus)
+    public void Setting(string initUniqueId, ItemStatus initStatus)
     {
         this.status = initStatus;
         SetID(initUniqueId);

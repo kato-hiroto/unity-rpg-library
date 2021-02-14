@@ -2,13 +2,13 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class Character : ObjectBehaviour
+public class Character : StuffBehaviour
 {
     // 基礎ステータス
     [field: SerializeField]
     public bool isMobile {get; private set;}
     [field: SerializeField]
-    public CharacterObject status {get; private set;}
+    public CharacterStatus status {get; private set;}
 
     // セーブデータ
     [NonSerialized]
@@ -46,10 +46,10 @@ public class Character : ObjectBehaviour
 
     // 関連オブジェクト
     [field: NonSerialized]
-    public OBList equippingItems {get; private set;} = null;
+    public Bag equippingItems {get; private set;} = null;
 
     // Cloneオブジェクトの初期化
-    public void Setting(string initUniqueId, bool initMobile, CharacterObject initStatus)
+    public void Setting(string initUniqueId, bool initMobile, CharacterStatus initStatus)
     {
         this.status = initStatus;
         this.isMobile = initMobile;

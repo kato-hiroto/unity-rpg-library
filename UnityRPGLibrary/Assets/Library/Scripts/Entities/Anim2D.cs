@@ -1,3 +1,23 @@
+using System;
+
+[Serializable]
+public class Anim2d : ObjectBehaviour<Anim2dStatus>
+{
+    override protected void Init()
+    {
+        foreach(var elem in status.controllers)
+        {
+            elem.Setting(uniqueId, this);
+        }
+    }
+
+    public override void Setting(string uniqueId, Anim2dStatus s)
+    {
+        status = s;
+        SetID(uniqueId);
+    }
+}
+
 // using System;
 // using System.Collections.Generic;
 // using UnityEngine;
@@ -32,47 +52,47 @@
 //         }
 //     }
 // }
-using System;
-using UnityEngine;
+// using System;
+// using UnityEngine;
 
-[Serializable]
-public class Anim2d : StuffBehaviour
-{
-    // 基礎ステータス
-    [field: SerializeField]
-    public Anim2dStatus status {get; private set;}
+// [Serializable]
+// public class Anim2d : StuffBehaviour
+// {
+//     // 基礎ステータス
+//     [field: SerializeField]
+//     public Anim2dStatus status {get; private set;}
 
-    // セーブデータ
-    [NonSerialized]
-    public ObjectState<int> initDir;
-    [NonSerialized]
-    public ObjectState<int> initPhase;
+//     // セーブデータ
+//     [NonSerialized]
+//     public ObjectState<int> initDir;
+//     [NonSerialized]
+//     public ObjectState<int> initPhase;
 
-    // ローカル反応変数
-    [NonSerialized]
-    public ObjectState<bool> use;
-    [NonSerialized]
-    public ObjectState<bool> consume;
-    [NonSerialized]
-    public ObjectState<bool> equip;
-    [NonSerialized]
-    public ObjectState<bool> execute;
+//     // ローカル反応変数
+//     [NonSerialized]
+//     public ObjectState<bool> use;
+//     [NonSerialized]
+//     public ObjectState<bool> consume;
+//     [NonSerialized]
+//     public ObjectState<bool> equip;
+//     [NonSerialized]
+//     public ObjectState<bool> execute;
 
-    // ステータスの挿入
-    public void Setting(string initUniqueId, Anim2dStatus initStatus)
-    {
-        this.status = initStatus;
-        SetID(initUniqueId);
-    }
+//     // ステータスの挿入
+//     public void Setting(string initUniqueId, Anim2dStatus initStatus)
+//     {
+//         this.status = initStatus;
+//         SetID(initUniqueId);
+//     }
 
-    // データロード時・初期処理
-    override protected void Init()
-    {
-        quantity = varList.intMap.SyncState($"{uniqueId}_q", status.initQuantity);
-        level = varList.floatMap.SyncState($"{uniqueId}_l", status.initLevel);
-        use = new ObjectState<bool>().Init(false);
-        consume = new ObjectState<bool>().Init(false);
-        equip = new ObjectState<bool>().Init(false);
-        execute = new ObjectState<bool>().Init(false);
-    }
-}
+//     // データロード時・初期処理
+//     override protected void Init()
+//     {
+//         quantity = varList.intMap.SyncState($"{uniqueId}_q", status.initQuantity);
+//         level = varList.floatMap.SyncState($"{uniqueId}_l", status.initLevel);
+//         use = new ObjectState<bool>().Init(false);
+//         consume = new ObjectState<bool>().Init(false);
+//         equip = new ObjectState<bool>().Init(false);
+//         execute = new ObjectState<bool>().Init(false);
+//     }
+// }

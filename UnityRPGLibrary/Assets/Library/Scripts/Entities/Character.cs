@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 [Serializable]
 public class Character : ObjectBehaviour<CharacterStatus>
@@ -17,6 +16,7 @@ public class Character : ObjectBehaviour<CharacterStatus>
         status = s;
         SetID(uniqueId);
     }
+}
 
     // // セーブデータ
     // [NonSerialized]
@@ -107,4 +107,4 @@ public class Character : ObjectBehaviour<CharacterStatus>
     //         controller.Setting(this);
     //     }
     // }
-}
+// }

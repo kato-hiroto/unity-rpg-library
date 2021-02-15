@@ -9424,7 +9424,6 @@ GameObject:
   - component: {fileID: 392250029}
   - component: {fileID: 392250028}
   - component: {fileID: 392250030}
-  - component: {fileID: 392250031}
   m_Layer: 0
   m_Name: Haruto
   m_TagString: Untagged
@@ -9511,22 +9510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <uniqueId>k__BackingField: 
-  <isMobile>k__BackingField: 1
   <status>k__BackingField: {fileID: 11400000, guid: cd19769d532311f498a96a5b4f1f409e, type: 2}
---- !u!114 &392250031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 392250027}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61231bdf815ebd04f967864db3193178, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <uniqueId>k__BackingField: 
-  <character>k__BackingField: {fileID: 392250030}
 --- !u!1 &491854270
 GameObject:
   m_ObjectHideFlags: 0

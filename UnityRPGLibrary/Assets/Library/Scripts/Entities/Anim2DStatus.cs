@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,30 +6,37 @@ public class Anim2dStatus : ScriptableObject
 {
     // 基本情報
     public string anim2dName = "";
-    public List<Anim2dTag> animTags = new List<Anim2dTag>();  // 何かしらの属性
+    public string description = "";
 
     // 描画に関する値
-    public List<Sprite> images = new List<Sprite>();
+    public List<Anim2d> animImages = new List<Anim2d>();
 
-    // 変動ステータス
-    public int initDir = 0;
+    // 基本ステータス
     public int initPhase = 0;
+    public float initQuality = 0f;
+    public float initQuantity = 0f;
+    public float initLevel = 0f;
 
-    // アニメーション詳細
-    public MappingPattern mappingPattern = MappingPattern.None;
+    // 初期ステータス
+    public float initDir = 0f;
+    public float initScale = 0f;
+
+    // 独自ステータス
+    public List<Sprite> images = new List<Sprite>();
+    public EffectShape effectShape = EffectShape.None;
+    public List<int> dirMapping = new List<int>();
+    public List<int> phaseMapping = new List<int>();
 
     // コントローラ
-    public List<TaskBehaviour<Anim2d>> controllers = new List<TaskBehaviour<Anim2d>>();
+    public List<ObjectBehaviour<Anim2d>> controllers = new List<ObjectBehaviour<Anim2d>>();
 }
 
-public enum Anim2dTag
-{
-    None
-}
-
-
-public enum MappingPattern
+public enum EffectShape
 {
     None,
-    Walking8d
+    Take,
+    Touch,
+    Shoot,
+    Observe,
+    Actuate
 }

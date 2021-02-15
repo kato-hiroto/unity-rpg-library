@@ -1,18 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
 
-public class Bag : MonoBehaviour
+[Serializable]
+public class Bag : ObjectBehaviour<BagStatus>
 {
-    // Start is called before the first frame update
-    void Start()
+    override protected void Init()
     {
-        
+        foreach(var elem in status.controllers)
+        {
+            elem.Setting(uniqueId, this);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Setting(string uniqueId, BagStatus s)
     {
-        
+        status = s;
+        SetID(uniqueId);
     }
 }

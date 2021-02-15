@@ -9,17 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e7e602810b125a48825af5f6ef5f297, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b8758ef7b877574981dfbb6bf130f6c, type: 3}
   m_Name: Haruto
   m_EditorClassIdentifier: 
-  characterName: "\u30CF\u30EB\u30C8"
-  description: "\u3069\u3053\u306B\u3067\u3082\u3044\u308B\u3054\u304F\u666E\u901A\u306E\u7537\u5B50\u9AD8\u6821\u751F\u3002"
-  charTags: 01000000
-  initImageNum: 0
-  images:
-  - <walkAnim>k__BackingField: {fileID: 11400000, guid: aa9bb105c92f39d42b90c9d3215a6d8f, type: 2}
-  initHitPoint: 100
+  characterName: 
+  description: 
+  animImages: []
+  initPhase: 0
+  initQuality: 0
+  initQuantity: 0
+  initLevel: 0
+  initHitPoint: 0
+  initMaxHitPoint: 0
   initMagicPoint: 0
-  initEnergyPoint: 100
-  initMoveSpeed: 100
+  initMaxMagicPoint: 0
+  initEnergyPoint: 0
+  initMaxEnergyPoint: 0
+  initMoveSpeed: 0
+  initMaxMoveSpeed: 0
   initMovePattern: 0
+  controllers: []

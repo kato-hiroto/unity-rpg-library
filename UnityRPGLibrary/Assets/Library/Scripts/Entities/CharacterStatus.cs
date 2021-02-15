@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,8 +11,13 @@ public class CharacterStatus : ScriptableObject
     // 描画に関する値
     public List<Anim2d> animImages = new List<Anim2d>();
 
-    // 変動ステータス
+    // 基本ステータス
     public int initPhase = 0;
+    public float initQuality = 0f;
+    public float initQuantity = 0f;
+    public float initLevel = 0f;
+
+    // 初期ステータス
     public float initHitPoint = 0f;
     public float initMaxHitPoint = 0f;
     public float initMagicPoint = 0f;
@@ -26,13 +30,6 @@ public class CharacterStatus : ScriptableObject
 
     // コントローラ
     public List<ObjectBehaviour<Character>> controllers = new List<ObjectBehaviour<Character>>();
-}
-
-public enum CharacterTag
-{
-    None,
-    Movable,
-    Playable
 }
 
 public enum MovePattern

@@ -39,17 +39,6 @@ public class ObjectStream : MonoBehaviour
         return queue.Count;
     }
 
-    // 実行キューの開始
-    private void Execute()
-    {
-        if (Size() > 0 && !executing)
-        {
-            executing = true;
-            var task = queue.Peek();
-            task();
-        }
-    }
-
     // 実行キューの移動
     public void Next()
     {
@@ -57,71 +46,80 @@ public class ObjectStream : MonoBehaviour
         executing = false;
     }
 
-    // タイマーへの追加
-    public void AddTimer(string name, float limit, StreamTask task)
-    {
-        var state = varList.timerTaskMap.SyncState(name, limit);
-        state.AddTrigger(name, (x) => {
-            if (x <= 0f)
-            {
-                task();
-                varList.timerTaskMap.RemoveState(name);
-            }
-        });
-    }
-
-    // タイマーの実行
-    private void ExecuteTimer()
-    {
-        foreach (var elem in varList.timerTaskMap.GetList())
-        {
-            elem.SetValue(elem.GetValue() - Time.deltaTime);
-        }
-    }
-
-    // タイマーから削除
-    public void RemoveTimer(string name)
-    {
-        varList.timerTaskMap.RemoveState(name);
-    }
-
     // ループへの追加
-    public void AddLoop(string name, StreamTask task)
+    public ObjectState<bool> AddLoop(string name, StreamTask task)
     {
-        var state = varList.loopTaskMap.SyncState(name, true);
+        var state = varList.loopTaskMap.SyncState(name, false);
         state.AddTrigger(name, (x) => {
             if (x)
             {
                 task();
             }
         });
+        return state;
     }
 
-    // ループの実行
-    private void ExecuteLoop()
-    {
-        foreach (var elem in varList.loopTaskMap.GetList())
-        {
-            elem.SetValue(elem.GetValue());
-        }
-    }
-
-    // ループから削除
+    // ループの削除
     public void RemoveLoop(string name)
     {
         varList.loopTaskMap.RemoveState(name);
+    }
+
+    // タイマーへの追加
+    public ObjectState<bool> AddTimer(string name, float limit, StreamTask loopTask, StreamTask timerTask)
+    {
+        var state = varList.loopTaskMap.SyncState(name, false);
+        var timer = varList.timerTaskMap.SyncState(name, limit);
+        state.AddTrigger(name, (x) => {
+            if (x)
+            {
+                loopTask();
+                timer.SetValue(timer.GetValue() - Time.deltaTime);
+            }
+        });
+        timer.AddTrigger(name, (x) => {
+            if (x <= 0f)
+            {
+                state.SetValue(false);
+                timer.SetValue(limit);
+                timerTask();
+            }
+        });
+        return state;
+    }
+
+    // タイマーの開始
+    public void StartTimer(string name, float limit)
+    {
+        varList.timerTaskMap.SyncState(name, limit).SetValue(limit);
+        varList.loopTaskMap.SyncState(name, false).SetValue(true);
+    }
+
+    // タイマーの削除
+    public void RemoveTimer(string name)
+    {
+        varList.loopTaskMap.RemoveState(name);
+        varList.timerTaskMap.RemoveState(name);
     }
 
     // 各タスクの随時実行
     void Update()
     {
         // キューの実行
-        Execute();
+        if (Size() > 0 && !executing)
+        {
+            executing = true;
+            var task = queue.Peek();
+            task();
+        }
 
+        // ループ・タイマーの実行
         if (Size() == 0)
         {
-            ExecuteTimer();
-            ExecuteLoop();
+            foreach (var elem in varList.loopTaskMap.GetList())
+            {
+                elem.SetValue(elem.GetValue());
+            }
         }
     }
 }

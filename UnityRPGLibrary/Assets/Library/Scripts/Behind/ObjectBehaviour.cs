@@ -19,7 +19,7 @@ abstract public class ObjectBehaviour<T> : MonoBehaviour
 
     // データロード時・初期処理
     abstract protected void Init();
-    abstract public void Setting(string uniqueId, T s);
+    abstract public void Setting(string initUniqueId, T s);
 
     // Awake is called when the script instance is being loaded.
     void Awake()

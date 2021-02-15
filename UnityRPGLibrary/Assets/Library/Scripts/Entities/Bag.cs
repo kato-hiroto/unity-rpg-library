@@ -11,9 +11,9 @@ public class Bag : ObjectBehaviour<BagStatus>
         }
     }
 
-    public override void Setting(string uniqueId, BagStatus s)
+    public override void Setting(string uId, BagStatus s)
     {
         status = s;
-        SetID(uniqueId);
+        SetID(uId);
     }
 }

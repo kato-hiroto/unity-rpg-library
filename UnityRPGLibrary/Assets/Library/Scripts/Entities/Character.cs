@@ -11,10 +11,10 @@ public class Character : ObjectBehaviour<CharacterStatus>
         }
     }
 
-    public override void Setting(string uniqueId, CharacterStatus s)
+    public override void Setting(string uId, CharacterStatus s)
     {
         status = s;
-        SetID(uniqueId);
+        SetID(uId);
     }
 }
 

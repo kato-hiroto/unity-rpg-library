@@ -11,10 +11,10 @@ public class Anim2d : ObjectBehaviour<Anim2dStatus>
         }
     }
 
-    public override void Setting(string uniqueId, Anim2dStatus s)
+    public override void Setting(string uId, Anim2dStatus s)
     {
         status = s;
-        SetID(uniqueId);
+        SetID(uId);
     }
 }
 

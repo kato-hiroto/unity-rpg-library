@@ -1,72 +1,11 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.AI;
+// using System;
+// using System.Linq;
+// using System.Collections.Generic;
+// using UnityEngine;
+// using UnityEngine.AI;
 
-public class MoveController : ObjectBehaviour<Character>
-{
-    // staticなグリッド
-    [NonSerialized]
-    static public Dictionary<int, Dictionary<int, Character>> gridField;
-
-    // セーブデータ
-    [NonSerialized]
-    public ObjectState<float> moveSpeed;    // 移動速度
-    [NonSerialized]
-    public ObjectState<Vector3> startPos;   // 開始位置
-    [NonSerialized]
-    public ObjectState<Vector3> endPos;     // 移動目標
-    [NonSerialized]
-    public ObjectState<Vector3> nowPos;     // 描画位置
-    [NonSerialized]
-    public ObjectState<Vector3> nowRot;     // 描画角度
-    [NonSerialized]
-    public ObjectState<bool> moving;        // 移動中と到達時
-
-    // データロード時の初期化処理
-    override protected void Init(){}
-
-    // 呼び出し時の初期化処理
-    public override void Setting(string uId, Character s)
-    {
-        status = s;
-        SetID($"{uId}/move");
-
-        // Stateの同期
-        moveSpeed = varList.floatMap.SyncState($"{uniqueId}/ms", 1f);
-        startPos = varList.vectorMap.SyncState($"{uniqueId}/sp", transform.position);
-        endPos = varList.vectorMap.SyncState($"{uniqueId}/ep", transform.position);
-        nowPos = varList.vectorMap.SyncState($"{uniqueId}/np", transform.position);
-        nowRot = varList.vectorMap.SyncState($"{uniqueId}/nr", transform.rotation.eulerAngles);
-        moving = taskStream.AddTimer($"{uniqueId}/rc", 1f / moveSpeed.GetValue(), MoveLoop, MoveEnd);
-
-        // statusへの逆同期
-        nowPos.AddTrigger($"{uniqueId}", (x)=>{
-            status.transform.position = x;
-        });
-        nowRot.AddTrigger($"{uniqueId}", (x)=>{
-            status.transform.rotation = Quaternion.Euler(x);
-        });
-    }
-
-    // 移動の継続
-    private void MoveLoop()
-    {
-        // var moveDir = endPos.GetValue() - character.objPosition.GetValue();
-        // var speed = character.moveSpeed.GetValue() * Time.deltaTime;
-        // transform.Translate(moveDir * speed);
-        // nowPos.SetValue(transform.position);
-    }
-
-    // 移動終了
-    private void MoveEnd()
-    {
-        // taskStream.RemoveLoop(uniqueId);
-        // character.objPosition.SetValue(endPos.GetValue());
-        // isMoving.SetValue(false);
-    }
-}
+// public class MoveController : TaskBehaviour<Character>
+// {
 
 //     // 基礎ステータス: 対象
 //     [field: SerializeField]

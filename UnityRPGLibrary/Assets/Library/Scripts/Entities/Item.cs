@@ -11,10 +11,10 @@ public class Item : ObjectBehaviour<ItemStatus>
         }
     }
 
-    public override void Setting(string uniqueId, ItemStatus s)
+    public override void Setting(string uId, ItemStatus s)
     {
         status = s;
-        SetID(uniqueId);
+        SetID(uId);
     }
 }
 

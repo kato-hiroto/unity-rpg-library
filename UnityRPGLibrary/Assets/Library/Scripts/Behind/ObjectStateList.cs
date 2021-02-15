@@ -27,9 +27,9 @@ public class ObjectStateList
     [SerializeField]
     public ObjectStateMapper<string> stringMap;
     [SerializeField]
-    public ObjectStateMapper<float> timerTaskMap;
-    [SerializeField]
     public ObjectStateMapper<bool> loopTaskMap;
+    [SerializeField]
+    public ObjectStateMapper<float> timerTaskMap;
 
     // シングルトンの取得
     public static ObjectStateList getInstance()

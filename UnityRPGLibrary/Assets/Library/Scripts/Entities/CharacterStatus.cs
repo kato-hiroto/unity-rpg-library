@@ -24,12 +24,9 @@ public class CharacterStatus : ScriptableObject
     public float initMaxMagicPoint = 0f;
     public float initEnergyPoint = 0f;
     public float initMaxEnergyPoint = 0f;
-    public float initMoveSpeed = 0f;
-    public float initMaxMoveSpeed = 0f;
+    public float initMoveSpeed = 1f;
+    public float initMaxMoveSpeed = 1f;
     public MovePattern initMovePattern = MovePattern.None;
-
-    // コントローラ
-    public List<ObjectBehaviour<Character>> controllers = new List<ObjectBehaviour<Character>>();
 }
 
 public enum MovePattern

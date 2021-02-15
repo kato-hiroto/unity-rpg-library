@@ -16,20 +16,17 @@ public class ObjectState<T>
     private T value;
 
     // 値参照・更新時の処理
-    private Dictionary<string, Callback> setTriggers;
+    public Dictionary<string, Callback> setTriggers;
 
     // 初期化処理
     public ObjectState<T> Init()
     {
-        name = "";
-        value = default(T);
         setTriggers = new Dictionary<string, Callback>();
         return this;
     }
 
     public ObjectState<T> Init(T initValue)
     {
-        name = "";
         value = initValue;
         setTriggers = new Dictionary<string, Callback>();
         return this;

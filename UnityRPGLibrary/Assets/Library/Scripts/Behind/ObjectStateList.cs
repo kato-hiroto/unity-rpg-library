@@ -13,36 +13,43 @@ public class ObjectStateList
     private Dictionary<string, Initialize> initTriggers = new Dictionary<string, Initialize>();
 
     // シングルトンインスタンス
-    private static ObjectStateList mInstance;
+    // private static ObjectStateList mInstance;
 
     // 保持する値
     [SerializeField]
-    public ObjectStateMapper<bool> boolMap;
+    public ObjectStateMapper<bool> boolMap = new ObjectStateMapper<bool>().makeMap();
     [SerializeField]
-    public ObjectStateMapper<int> intMap;
+    public ObjectStateMapper<int> intMap = new ObjectStateMapper<int>().makeMap();
     [SerializeField]
-    public ObjectStateMapper<float> floatMap;
+    public ObjectStateMapper<float> floatMap = new ObjectStateMapper<float>().makeMap();
     [SerializeField]
-    public ObjectStateMapper<Vector3> vectorMap;
+    public ObjectStateMapper<Vector3> vectorMap = new ObjectStateMapper<Vector3>().makeMap();
     [SerializeField]
-    public ObjectStateMapper<string> stringMap;
+    public ObjectStateMapper<string> stringMap = new ObjectStateMapper<string>().makeMap();
     [SerializeField]
-    public ObjectStateMapper<bool> loopTaskMap;
+    public ObjectStateMapper<bool> loopTaskMap = new ObjectStateMapper<bool>().makeMap();
     [SerializeField]
-    public ObjectStateMapper<float> timerTaskMap;
+    public ObjectStateMapper<float> timerTaskMap = new ObjectStateMapper<float>().makeMap();
 
-    // シングルトンの取得
-    public static ObjectStateList getInstance()
-    {
-        if (mInstance == null)
-        {
-            mInstance = new ObjectStateList();
-        }
-        return mInstance;
-    }
+    // // シングルトンの取得
+    // public static ObjectStateList getInstance()
+    // {
+    //     if (mInstance == null)
+    //     {
+    //         mInstance = new ObjectStateList();
+    //     }
+    //     // Debug.Log($"count2: {mInstance.loopTaskMap.GetList().Count}");
+    //     return mInstance;
+    // }
 
-    // 初期化処理の実行
-    private void DoInit()
+    // // シングルトンの初期化
+    // public static void resetInstance()
+    // {
+    //     mInstance = null;
+    // }
+
+    // 登録した初期化処理の実行
+    private void DoOthersInit()
     {
         foreach (var initTrigger in initTriggers)
         {
@@ -86,7 +93,7 @@ public class ObjectStateList
             vectorMap = data.vectorMap.makeMap();
             timerTaskMap = data.timerTaskMap.makeMap();
             loopTaskMap = data.loopTaskMap.makeMap();
-            DoInit();
+            DoOthersInit();
             Debug.Log($"ロード path: {path}");
         }
     }

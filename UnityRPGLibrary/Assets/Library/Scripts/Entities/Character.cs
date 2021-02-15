@@ -1,11 +1,18 @@
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 [Serializable]
 public class Character : ObjectBehaviour<CharacterStatus>
 {
+    // コントローラ
+    [NonSerialized]
+    public ObjectBehaviour<Character>[] controllers;
+
     override protected void Init()
     {
-        foreach(var elem in status.controllers)
+        controllers = GetComponents<ObjectBehaviour<Character>>();
+        foreach(var elem in controllers)
         {
             elem.Setting(uniqueId, this);
         }

@@ -11,7 +11,7 @@ public class ObjectStateMapper<T>
 
     // 名前と変数を対応付けた辞書
     [NonSerialized]
-    public Dictionary<string, ObjectState<T>> map;
+    private Dictionary<string, ObjectState<T>> map;
 
     // 初期化
     private ObjectStateMapper<T> Init()
@@ -36,14 +36,18 @@ public class ObjectStateMapper<T>
     // 追加・参照
     public ObjectState<T> SyncState(string name, T initValue)
     {
-        Init();
-        if (map.ContainsKey(name)){
+        if (map.ContainsKey(name))
+        {
             return map[name].Init();
-        } 
-        var state = new ObjectState<T>().Init(name, initValue);
-        list.Add(state);
-        map.Add(name, state);
-        return state;
+        }
+        else
+        {
+            var state = new ObjectState<T>().Init(name, initValue);
+            list.Add(state);
+            map.Add(name, state);
+            Debug.Log($"state.name: {state.GetName()}");
+            return state;
+        }
     }
 
     // 一括対応付け
@@ -53,7 +57,7 @@ public class ObjectStateMapper<T>
         map.Clear();
         foreach (var elem in list)
         {
-            map[elem.GetName()] = elem;
+            map[elem.GetName()] = elem.Init();
         }
         return this;
     }
@@ -61,7 +65,6 @@ public class ObjectStateMapper<T>
     // 除去
     public void RemoveState(string name)
     {
-        Init();
         if (map.ContainsKey(name))
         {
             var state = map[name];

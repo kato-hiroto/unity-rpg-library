@@ -14,8 +14,8 @@ abstract public class ObjectBehaviour<T> : MonoBehaviour
     public T status {get; protected set;}
 
     // グローバル格納値
-    protected ObjectStateList varList = ObjectStateList.getInstance();
-    protected ObjectStream taskStream;
+    protected static ObjectStateList varList;
+    protected static ObjectStream taskStream;
 
     // データロード時・初期処理
     abstract protected void Init();
@@ -24,7 +24,14 @@ abstract public class ObjectBehaviour<T> : MonoBehaviour
     // Awake is called when the script instance is being loaded.
     void Awake()
     {
-        taskStream = ObjectStream.getInstance();
+        if (taskStream == null)
+        {
+            taskStream = ObjectStream.getInstance();
+        }
+        if (varList == null)
+        {
+            varList = taskStream.varList;
+        }
     }
 
     // Start is called on the frame when a script is enabled just before any of the Update methods is called the first time.

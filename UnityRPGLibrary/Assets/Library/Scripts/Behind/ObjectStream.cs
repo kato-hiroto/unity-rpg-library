@@ -10,8 +10,8 @@ public class ObjectStream : MonoBehaviour
     private Queue<StreamTask> queue = new Queue<StreamTask>();
     private bool executing = false;
     
-    // グローバル格納値
-    private ObjectStateList varList = ObjectStateList.getInstance();
+    // データ保存領域
+    public ObjectStateList varList = new ObjectStateList();
 
     // シングルトンインスタンス
     private static ObjectStream mInstance;
@@ -25,6 +25,12 @@ public class ObjectStream : MonoBehaviour
             mInstance = tmpObj.AddComponent<ObjectStream>();
         }
         return mInstance;
+    }
+
+    // シングルトンの初期化
+    public static void resetInstance()
+    {
+        mInstance = null;
     }
 
     // 実行キューへの追加
@@ -70,6 +76,7 @@ public class ObjectStream : MonoBehaviour
     {
         var state = varList.loopTaskMap.SyncState(name, false);
         var timer = varList.timerTaskMap.SyncState(name, limit);
+        
         state.AddTrigger(name, (x) => {
             if (x)
             {
@@ -116,9 +123,19 @@ public class ObjectStream : MonoBehaviour
         // ループ・タイマーの実行
         if (Size() == 0)
         {
-            foreach (var elem in varList.loopTaskMap.GetList())
+            var list = varList.loopTaskMap.GetList();
+            Debug.Log($"count: {list.Count}");
+            foreach (var elem in list)
             {
-                elem.SetValue(elem.GetValue());
+                Debug.Log($"1 name:{elem.GetName()}, value:{elem.GetValue()}, trigger: {elem.setTriggers}");
+            }
+            foreach (var elem in list)
+            {
+                if (elem.GetValue())
+                {
+                    Debug.Log($"2 name: {elem.GetName()}, value: {elem.GetValue()}, trigger: {elem.setTriggers}");
+                    elem.SetValue(true);
+                }
             }
         }
     }

@@ -8,28 +8,34 @@ public class CharacterStatus : ScriptableObject
     // 基本情報
     public string characterName = "";
     public string description = "";
-    public List<CharacterTag> charTags = new List<CharacterTag>();  // 何かしらの属性
 
-    // 初期値
-    public int initImageNum = 0;
-    public List<Anim2D> images = new List<Anim2D>();
+    // 描画に関する値
+    public List<Anim2d> animImages = new List<Anim2d>();
+
+    // 変動ステータス
+    public int initPhase = 0;
     public float initHitPoint = 0f;
+    public float initMaxHitPoint = 0f;
     public float initMagicPoint = 0f;
+    public float initMaxMagicPoint = 0f;
     public float initEnergyPoint = 0f;
+    public float initMaxEnergyPoint = 0f;
     public float initMoveSpeed = 0f;
-    public MovePatternTag initMovePattern = MovePatternTag.None;
+    public float initMaxMoveSpeed = 0f;
+    public MovePattern initMovePattern = MovePattern.None;
 
     // コントローラ
-    public List<TaskBehaviour<Character>> controllers = new List<TaskBehaviour<Character>>();
+    public List<ObjectBehaviour<Character>> controllers = new List<ObjectBehaviour<Character>>();
 }
 
 public enum CharacterTag
 {
     None,
+    Movable,
     Playable
 }
 
-public enum MovePatternTag
+public enum MovePattern
 {
     None = 0,
     Random = 1,

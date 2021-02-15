@@ -11,7 +11,6 @@ public class ObjectStateList
 
     // 初期化時の処理
     private Dictionary<string, Initialize> initTriggers = new Dictionary<string, Initialize>();
-    private Dictionary<string, Initialize> afterTriggers = new Dictionary<string, Initialize>();
 
     // シングルトンインスタンス
     private static ObjectStateList mInstance;
@@ -22,13 +21,15 @@ public class ObjectStateList
     [SerializeField]
     public ObjectStateMapper<int> intMap;
     [SerializeField]
-    public ObjectStateMapper<string> stringMap;
-    [SerializeField]
     public ObjectStateMapper<float> floatMap;
     [SerializeField]
     public ObjectStateMapper<Vector3> vectorMap;
     [SerializeField]
-    public ObjectStateMapper<float> timeLimitMap;
+    public ObjectStateMapper<string> stringMap;
+    [SerializeField]
+    public ObjectStateMapper<float> timerTaskMap;
+    [SerializeField]
+    public ObjectStateMapper<bool> loopTaskMap;
 
     // シングルトンの取得
     public static ObjectStateList getInstance()
@@ -47,10 +48,6 @@ public class ObjectStateList
         {
             initTrigger.Value();
         }
-        foreach (var afterTrigger in afterTriggers)
-        {
-            afterTrigger.Value();
-        }
     }
 
     // initTriggersへの追加
@@ -63,18 +60,6 @@ public class ObjectStateList
     public void DeleteInitTrigger(string name)
     {
         if (initTriggers.ContainsKey(name)) initTriggers.Remove(name);
-    }
-
-    // afterTriggersへの追加
-    public void AddAfterTrigger(string name, Initialize callback)
-    {
-        if (!afterTriggers.ContainsKey(name)) afterTriggers.Add(name, callback);
-    }
-
-    // afterTriggersから削除
-    public void DeleteAfterTrigger(string name)
-    {
-        if (afterTriggers.ContainsKey(name)) afterTriggers.Remove(name);
     }
 
     // セーブ
@@ -99,7 +84,8 @@ public class ObjectStateList
             stringMap = data.stringMap.makeMap();
             floatMap = data.floatMap.makeMap();
             vectorMap = data.vectorMap.makeMap();
-            timeLimitMap = data.timeLimitMap.makeMap();
+            timerTaskMap = data.timerTaskMap.makeMap();
+            loopTaskMap = data.loopTaskMap.makeMap();
             DoInit();
             Debug.Log($"ロード path: {path}");
         }

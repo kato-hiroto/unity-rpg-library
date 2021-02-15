@@ -13,12 +13,6 @@ public class ObjectStream : MonoBehaviour
     // グローバル格納値
     private ObjectStateList varList = ObjectStateList.getInstance();
 
-    // タイマーの処理
-    private Dictionary<string, StreamTask> timeline = new Dictionary<string, StreamTask>();
-
-    // 無限ループの処理
-    private Dictionary<string, StreamTask> loop = new Dictionary<string, StreamTask>();
-
     // シングルトンインスタンス
     private static ObjectStream mInstance;
 
@@ -39,13 +33,6 @@ public class ObjectStream : MonoBehaviour
         queue.Enqueue(task);
     }
 
-    // 実行キューの移動
-    public void Next()
-    {
-        queue.Dequeue();
-        executing = false;
-    }
-
     // 実行キューの長さ確認
     public int Size()
     {
@@ -63,56 +50,66 @@ public class ObjectStream : MonoBehaviour
         }
     }
 
+    // 実行キューの移動
+    public void Next()
+    {
+        queue.Dequeue();
+        executing = false;
+    }
+
     // タイマーへの追加
     public void AddTimer(string name, float limit, StreamTask task)
     {
-        if (!timeline.ContainsKey(name))
-        {
-            timeline.Add(name, task);
-            varList.timeLimitMap.SyncState(name, limit);
-        }
+        var state = varList.timerTaskMap.SyncState(name, limit);
+        state.AddTrigger(name, (x) => {
+            if (x <= 0f)
+            {
+                task();
+                varList.timerTaskMap.RemoveState(name);
+            }
+        });
     }
 
     // タイマーの実行
-    private void ExecuteTimer(string name)
+    private void ExecuteTimer()
     {
-        var timeLimit = varList.timeLimitMap.SyncState(name, 0f);
-        var value = timeLimit.GetValue() - Time.deltaTime;
-        timeLimit.SetValue(value);
-        if (value < 0f)
+        foreach (var elem in varList.timerTaskMap.GetList())
         {
-            timeline[name]();
-            timeline.Remove(name);
-            varList.timeLimitMap.RemoveState(name);
+            elem.SetValue(elem.GetValue() - Time.deltaTime);
         }
     }
 
     // タイマーから削除
     public void RemoveTimer(string name)
     {
-        if (timeline.ContainsKey(name))
-        {
-            timeline.Remove(name);
-            varList.timeLimitMap.RemoveState(name);
-        }
+        varList.timerTaskMap.RemoveState(name);
     }
 
-    // 無限ループへの追加
+    // ループへの追加
     public void AddLoop(string name, StreamTask task)
     {
-        if (!loop.ContainsKey(name))
+        var state = varList.loopTaskMap.SyncState(name, true);
+        state.AddTrigger(name, (x) => {
+            if (x)
+            {
+                task();
+            }
+        });
+    }
+
+    // ループの実行
+    private void ExecuteLoop()
+    {
+        foreach (var elem in varList.loopTaskMap.GetList())
         {
-            loop.Add(name, task);
+            elem.SetValue(elem.GetValue());
         }
     }
 
-    // 無限ループから削除
+    // ループから削除
     public void RemoveLoop(string name)
     {
-        if (loop.ContainsKey(name))
-        {
-            loop.Remove(name);
-        }
+        varList.loopTaskMap.RemoveState(name);
     }
 
     // 各タスクの随時実行
@@ -123,17 +120,8 @@ public class ObjectStream : MonoBehaviour
 
         if (Size() == 0)
         {
-            // タイマーの実行
-            foreach (var key in new List<string>(timeline.Keys))
-            {
-                ExecuteTimer(key);
-            }
-
-            // ループの実行
-            foreach (var elem in loop)
-            {
-                elem.Value();
-            }
+            ExecuteTimer();
+            ExecuteLoop();
         }
     }
 }

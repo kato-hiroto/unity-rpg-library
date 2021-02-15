@@ -6,17 +6,6 @@ using UnityEngine.AI;
 
 public class MoveController : TaskBehaviour<Character>
 {
-    // 対応付け
-    static private List< Tuple<int, Vector3> > eightDirs = new List< Tuple<int, Vector3> >{
-        new Tuple<int, Vector3>(0, -Vector3.up),
-        new Tuple<int, Vector3>(1, -Vector3.right - Vector3.up),
-        new Tuple<int, Vector3>(2, -Vector3.right),
-        new Tuple<int, Vector3>(3, -Vector3.right + Vector3.up),
-        new Tuple<int, Vector3>(4, Vector3.up),
-        new Tuple<int, Vector3>(5, Vector3.right + Vector3.up),
-        new Tuple<int, Vector3>(6, Vector3.right),
-        new Tuple<int, Vector3>(7, Vector3.right - Vector3.up)
-    };
 
     // 基礎ステータス: 対象
     [field: SerializeField]
@@ -39,6 +28,18 @@ public class MoveController : TaskBehaviour<Character>
     public NavMeshAgent agent {get; private set;}
     private NavMeshHit hit;
     private NavMeshPath path;
+
+    // 対応付け
+    static private List< Tuple<int, Vector3> > eightDirs = new List< Tuple<int, Vector3> >{
+        new Tuple<int, Vector3>(0, -Vector3.up),
+        new Tuple<int, Vector3>(1, -Vector3.right - Vector3.up),
+        new Tuple<int, Vector3>(2, -Vector3.right),
+        new Tuple<int, Vector3>(3, -Vector3.right + Vector3.up),
+        new Tuple<int, Vector3>(4, Vector3.up),
+        new Tuple<int, Vector3>(5, Vector3.right + Vector3.up),
+        new Tuple<int, Vector3>(6, Vector3.right),
+        new Tuple<int, Vector3>(7, Vector3.right - Vector3.up)
+    };
 
     // ステータスの挿入
     override public void Setting(Character initCharacter)

@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,11 +27,19 @@ public class ObjectStateMapper<T>
         return this;
     }
 
-    // 参照
+    // リストの参照
+    public List<ObjectState<T>> GetList()
+    {
+        return list;
+    }
+
+    // 追加・参照
     public ObjectState<T> SyncState(string name, T initValue)
     {
         Init();
-        if (map.ContainsKey(name)) return map[name].Init();
+        if (map.ContainsKey(name)){
+            return map[name].Init();
+        } 
         var state = new ObjectState<T>().Init(name, initValue);
         list.Add(state);
         map.Add(name, state);

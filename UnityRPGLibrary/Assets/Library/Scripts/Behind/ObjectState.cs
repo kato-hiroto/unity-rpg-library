@@ -5,14 +5,15 @@ using UnityEngine;
 [Serializable]
 public class ObjectState<T>
 {
-    // 保持する値
-    [SerializeField]
-    private string name = "";
-    [SerializeField]
-    private T value = default(T);
-
     // デリゲート定義
     public delegate void Callback(T s);
+    public delegate bool ConditionJudge(T s);
+
+    // 保持する値
+    [SerializeField]
+    private string name;
+    [SerializeField]
+    private T value;
 
     // 値参照・更新時の処理
     private Dictionary<string, Callback> setTriggers;
@@ -20,6 +21,8 @@ public class ObjectState<T>
     // 初期化処理
     public ObjectState<T> Init()
     {
+        name = "";
+        value = default(T);
         setTriggers = new Dictionary<string, Callback>();
         return this;
     }
@@ -52,7 +55,7 @@ public class ObjectState<T>
         return value;
     }
 
-    // セッター
+    // 値のセッター
     public void SetValue(T newValue)
     {
         value = newValue;
@@ -63,20 +66,20 @@ public class ObjectState<T>
     }
 
     // setTriggersへの追加
-    public void AddSetTrigger(string name, Callback callback)
+    public void InitTrigger(string name, Callback callback, ConditionJudge judge)
     {
         if (!setTriggers.ContainsKey(name)) setTriggers.Add(name, callback);
+        if (judge(value)) callback(value);
     }
 
     // setTriggersへの追加
-    public void InitSetTrigger(string name, T condition, Callback callback)
+    public void AddTrigger(string name, Callback callback)
     {
         if (!setTriggers.ContainsKey(name)) setTriggers.Add(name, callback);
-        if (condition == null || value.Equals(condition)) callback(value);
     }
 
     // setTriggersからの削除
-    public void RemoveSetTrigger(string name)
+    public void RemoveTrigger(string name)
     {
         if (setTriggers.ContainsKey(name)) setTriggers.Remove(name);
     }

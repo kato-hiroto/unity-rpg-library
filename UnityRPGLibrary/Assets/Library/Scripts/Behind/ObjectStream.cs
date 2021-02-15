@@ -98,8 +98,14 @@ public class ObjectStream : MonoBehaviour
     // タイマーの開始
     public void StartTimer(string name, float limit)
     {
-        varList.timerTaskMap.SyncState(name, limit).SetValue(limit);
-        varList.loopTaskMap.SyncState(name, false).SetValue(true);
+        var tMap = varList.timerTaskMap.GetMap();
+        var lMap = varList.loopTaskMap.GetMap();
+        if (tMap.ContainsKey(name) && lMap.ContainsKey(name))
+        {
+            tMap[name].SetValue(limit);
+            lMap[name].SetValue(true);
+        }
+        Debug.Log($"tMap[{name}]:{tMap.ContainsKey(name)}, lMap[{name}]:{lMap.ContainsKey(name)}");
     }
 
     // タイマーの削除
@@ -123,17 +129,10 @@ public class ObjectStream : MonoBehaviour
         // ループ・タイマーの実行
         if (Size() == 0)
         {
-            var list = varList.loopTaskMap.GetList();
-            Debug.Log($"count: {list.Count}");
-            foreach (var elem in list)
-            {
-                Debug.Log($"1 name:{elem.GetName()}, value:{elem.GetValue()}, trigger: {elem.setTriggers}");
-            }
-            foreach (var elem in list)
+            foreach (var elem in varList.loopTaskMap.GetList())
             {
                 if (elem.GetValue())
                 {
-                    Debug.Log($"2 name: {elem.GetName()}, value: {elem.GetValue()}, trigger: {elem.setTriggers}");
                     elem.SetValue(true);
                 }
             }

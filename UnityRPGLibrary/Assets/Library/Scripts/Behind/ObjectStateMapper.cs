@@ -33,6 +33,12 @@ public class ObjectStateMapper<T>
         return list;
     }
 
+    // マップの参照
+    public Dictionary<string, ObjectState<T>> GetMap()
+    {
+        return map;
+    }
+
     // 追加・参照
     public ObjectState<T> SyncState(string name, T initValue)
     {

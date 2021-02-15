@@ -25,6 +25,6 @@ MonoBehaviour:
   initMaxMagicPoint: 0
   initEnergyPoint: 0
   initMaxEnergyPoint: 0
-  initMoveSpeed: 1
-  initMaxMoveSpeed: 1
+  initMoveSpeed: 2
+  initMaxMoveSpeed: 2
   initMovePattern: 0

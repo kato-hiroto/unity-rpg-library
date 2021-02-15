@@ -2,8 +2,10 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MoveController : ObjectBehaviour<Character>, IMove
+public class MoveController : ObjectBehaviour<Character>, InputDirAdapter
 {
+    static float EPS = 0.001f;
+
     // セーブデータ
     [NonSerialized]
     public ObjectState<float> moveSpeed;    // 移動速度
@@ -20,7 +22,7 @@ public class MoveController : ObjectBehaviour<Character>, IMove
 
     // コントローラ
     [NonSerialized]
-    public ObjectBehaviour<IMove>[] controllers;
+    public ObjectBehaviour<InputDirAdapter>[] controllers;
 
     // コンポーネント
     private NavMeshPath path;
@@ -51,7 +53,7 @@ public class MoveController : ObjectBehaviour<Character>, IMove
         });
 
         // Setting
-        controllers = GetComponents<ObjectBehaviour<IMove>>();
+        controllers = GetComponents<ObjectBehaviour<InputDirAdapter>>();
         foreach(var elem in controllers)
         {
             elem.Setting(uniqueId, this);
@@ -61,23 +63,25 @@ public class MoveController : ObjectBehaviour<Character>, IMove
     // 移動中
     private void MoveLoop()
     {
-        
-        var moveDir = path.corners[0] - nowPos.GetValue();
+        if (path.corners.Length < 2) return;
+        var moveDir = path.corners[1] - nowPos.GetValue();
         var moveVec = moveDir.normalized * moveSpeed.GetValue() * Time.deltaTime;
         var edge = moveDir.magnitude < moveVec.magnitude;
         moveVec = edge ? moveDir : moveVec;
         nowPos.SetValue(nowPos.GetValue() + moveVec);
-        nowRot.SetValue(Quaternion.FromToRotation(Vector3.down, moveVec).eulerAngles);
-        if (edge)
+        if (moveVec.magnitude > EPS)
         {
-            Move(endPos.GetValue());
+            float zRot = Mathf.Atan2(moveVec.x, -moveVec.y) * 180f / Mathf.PI;
+            nowRot.SetValue(new Vector3(0f, 0f, zRot));
         }
+        if (edge) Move(endPos.GetValue());
     }
 
     // 移動 1/speed 秒経過
     private void MoveEnd()
     {
-        Move(endPos.GetValue());
+        var vec = endPos.GetValue() - nowPos.GetValue();
+        if (vec.magnitude > EPS) Move(endPos.GetValue());
     }
 
     // targetPosまである速度で移動
@@ -85,7 +89,7 @@ public class MoveController : ObjectBehaviour<Character>, IMove
     {
         path = new NavMeshPath();
         bool result = NavMesh.CalculatePath(nowPos.GetValue(), targetPos, NavMesh.AllAreas, path);
-        if (result)
+        if (result && path.corners.Length > 1)
         {
             startPos.SetValue(nowPos.GetValue());
             endPos.SetValue(targetPos);
@@ -99,16 +103,9 @@ public class MoveController : ObjectBehaviour<Character>, IMove
         moving.SetValue(false);
     }
 
-    // 移動停止
+    // 現在位置の取得
     public Vector3 GetNowPosition()
     {
         return nowPos.GetValue();
     }
-}
-
-public interface IMove
-{
-    void Move(Vector3 targetPos);
-    void Stop();
-    Vector3 GetNowPosition();
 }

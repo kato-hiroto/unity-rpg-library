@@ -70,11 +70,7 @@ public class MoveController : ObjectBehaviour<ICharacter>, IMoveController
 
         // 位置の書き換え
         nowPos.SetValue(nowPos.GetValue() + moveVec);
-        if (moveVec.magnitude > Mathf.Epsilon)
-        {
-            float zRot = Mathf.Atan2(moveVec.x, -moveVec.y) * 180f / Mathf.PI;
-            nowRot.SetValue(new Vector3(0f, 0f, zRot));
-        }
+        Rotate(moveVec);
 
         // パスの端なら再計算
         if (edge) Move(nowPos.GetValue(), endPos.GetValue());
@@ -97,6 +93,16 @@ public class MoveController : ObjectBehaviour<ICharacter>, IMoveController
         taskStream.StartTimer(moving.GetName(), 1f / moveSpeed.GetValue());
     }
 
+    // 向きの変更
+    public void Rotate(Vector3 direction)
+    {
+        if (direction.magnitude > Mathf.Epsilon)
+        {
+            float zRot = Mathf.Atan2(direction.x, -direction.y) * 180f / Mathf.PI;
+            nowRot.SetValue(new Vector3(0f, 0f, zRot));
+        }
+    }
+
     // 移動停止
     public void Stop()
     {
@@ -113,6 +119,7 @@ public class MoveController : ObjectBehaviour<ICharacter>, IMoveController
 public interface IMoveController
 {
     void Move(Vector3 objectPos, Vector3 targetPos);
+    void Rotate(Vector3 direction);
     void Stop();
     Vector3 GetNowPosition();
 }

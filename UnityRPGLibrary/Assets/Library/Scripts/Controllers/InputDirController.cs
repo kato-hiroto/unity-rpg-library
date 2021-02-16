@@ -70,6 +70,7 @@ public class InputDirController : ObjectBehaviour<IMoveController>
         {
             Debug.Log($"nowPos:{nowPos}, endPos:{endPos}");
             status.Stop();
+            status.Rotate(endPos - nowPos);
         }
     }
 }

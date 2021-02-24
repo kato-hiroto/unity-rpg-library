@@ -26,13 +26,4 @@ public class CharacterStatus : ScriptableObject
     public float initMaxEnergyPoint = 0f;
     public float initMoveSpeed = 1f;
     public float initMaxMoveSpeed = 1f;
-    public MovePattern initMovePattern = MovePattern.None;
-}
-
-public enum MovePattern
-{
-    None = 0,
-    Random = 1,
-    Escape = 2,
-    Attack = 3
 }

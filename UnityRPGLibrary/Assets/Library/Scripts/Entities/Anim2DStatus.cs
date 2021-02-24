@@ -26,9 +26,6 @@ public class Anim2dStatus : ScriptableObject
     public EffectShape effectShape = EffectShape.None;
     public List<int> dirMapping = new List<int>();
     public List<int> phaseMapping = new List<int>();
-
-    // コントローラ
-    public List<ObjectBehaviour<Anim2d>> controllers = new List<ObjectBehaviour<Anim2d>>();
 }
 
 public enum EffectShape

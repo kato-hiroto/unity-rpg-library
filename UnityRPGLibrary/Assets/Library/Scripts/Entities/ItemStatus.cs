@@ -26,7 +26,4 @@ public class ItemStatus : ScriptableObject
     public float initMaxRange = 0;
     public float initCooltime = 0f;
     public float initMaxCooltime = 0f;
-
-    // コントローラ
-    public List<ObjectBehaviour<Item>> controllers = new List<ObjectBehaviour<Item>>();
 }

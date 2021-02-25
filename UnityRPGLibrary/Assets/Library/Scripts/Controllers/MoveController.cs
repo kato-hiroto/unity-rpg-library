@@ -2,15 +2,15 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MoveController : ObjectBehaviour<ICharacter>, IMoveController
+public class MoveController : ObjectBehaviour<ICharacter>
 {
     // セーブデータ
     [NonSerialized]
     public ObjectState<float> moveSpeed;    // 移動速度
     [NonSerialized]
-    public ObjectState<Vector3> startPos;   // 開始位置
+    public ObjectState<Vector3> nxtPos;     // 次の移動位置
     [NonSerialized]
-    public ObjectState<Vector3> endPos;     // 移動目標
+    public ObjectState<Vector3> endPos;     // 最終目標
     [NonSerialized]
     public ObjectState<Vector3> nowPos;     // 描画位置
     [NonSerialized]
@@ -20,7 +20,7 @@ public class MoveController : ObjectBehaviour<ICharacter>, IMoveController
 
     // コントローラ
     [NonSerialized]
-    public ObjectBehaviour<IMoveController>[] controllers;
+    public ObjectBehaviour<MoveController>[] controllers;
 
     // コンポーネント
     private NavMeshPath path;
@@ -36,7 +36,7 @@ public class MoveController : ObjectBehaviour<ICharacter>, IMoveController
 
         // Stateの同期
         moveSpeed = varList.floatMap.SyncState($"{uniqueId}/ms", s.speed);
-        startPos = varList.vectorMap.SyncState($"{uniqueId}/sp", transform.position);
+        nxtPos = varList.vectorMap.SyncState($"{uniqueId}/sp", transform.position);
         endPos = varList.vectorMap.SyncState($"{uniqueId}/ep", transform.position);
         nowPos = varList.vectorMap.SyncState($"{uniqueId}/np", transform.position);
         nowRot = varList.vectorMap.SyncState($"{uniqueId}/nr", transform.rotation.eulerAngles);
@@ -51,10 +51,47 @@ public class MoveController : ObjectBehaviour<ICharacter>, IMoveController
         });
 
         // Setting
-        controllers = GetComponents<ObjectBehaviour<IMoveController>>();
+        controllers = GetComponents<ObjectBehaviour<MoveController>>();
         foreach(var elem in controllers)
         {
             elem.Setting(uniqueId, this);
+        }
+    }
+
+    // targetPosに近接するために1グリッド移動
+    public void Move(Vector3 objectPos, Vector3 targetPos)
+    {
+        // ルートの確認
+        Stop();
+        path = new NavMeshPath();
+        bool result = NavMesh.CalculatePath(objectPos, targetPos, NavMesh.AllAreas, path);
+        if (!result || path.corners.Length < 2) return;
+
+        // グリッド配置
+        var nowGrid = new Vector3(Mathf.Round(objectPos.x), Mathf.Round(objectPos.y), 0f);
+        var pthGrid = new Vector3(Mathf.Round(path.corners[1].x), Mathf.Round(path.corners[1].y), 0f);
+        var endGrid = new Vector3(Mathf.Round(targetPos.x), Mathf.Round(targetPos.y), 0f);
+        if (nowGrid.Equals(pthGrid)) return;
+
+        // 次のグリッドの決定
+        var diff = pthGrid - nowGrid;
+        var abs = new Vector3(Mathf.Abs(diff.x), Mathf.Abs(diff.y), 0f);
+        var sign = new Vector3(Mathf.Sign(diff.x), Mathf.Sign(diff.y), 0f);
+        var dir = abs.x == abs.y ? sign : (abs.x > abs.y ? Vector3.right * sign.x : Vector3.up * sign.y);
+
+        // 計算値の設定
+        nxtPos.SetValue(nowGrid + dir);
+        endPos.SetValue(endGrid);
+        taskStream.StartTimer(moving.GetName(), 1f / moveSpeed.GetValue());
+    }
+
+    // 向きの変更
+    public void Rotate(Vector3 direction)
+    {
+        if (direction.magnitude > Mathf.Epsilon)
+        {
+            float zRot = Mathf.Atan2(direction.x, -direction.y) * 180f / Mathf.PI;
+            nowRot.SetValue(new Vector3(0f, 0f, zRot));
         }
     }
 
@@ -62,8 +99,7 @@ public class MoveController : ObjectBehaviour<ICharacter>, IMoveController
     private void MoveLoop()
     {
         // 移動ベクトルの計算
-        if (path.corners.Length < 2) return;
-        var moveDir = path.corners[1] - nowPos.GetValue();
+        var moveDir = nxtPos.GetValue() - nowPos.GetValue();
         var moveVec = moveDir.normalized * moveSpeed.GetValue() * Time.deltaTime;
         var edge = moveDir.magnitude < moveVec.magnitude;
         moveVec = edge ? moveDir : moveVec;
@@ -82,27 +118,6 @@ public class MoveController : ObjectBehaviour<ICharacter>, IMoveController
         Move(nowPos.GetValue(), endPos.GetValue());
     }
 
-    // targetPosまである速度で移動
-    public void Move(Vector3 objectPos, Vector3 targetPos)
-    {
-        path = new NavMeshPath();
-        bool result = NavMesh.CalculatePath(objectPos, targetPos, NavMesh.AllAreas, path);
-        if (!result || path.corners.Length < 2) return;
-        startPos.SetValue(nowPos.GetValue());
-        endPos.SetValue(targetPos);
-        taskStream.StartTimer(moving.GetName(), 1f / moveSpeed.GetValue());
-    }
-
-    // 向きの変更
-    public void Rotate(Vector3 direction)
-    {
-        if (direction.magnitude > Mathf.Epsilon)
-        {
-            float zRot = Mathf.Atan2(direction.x, -direction.y) * 180f / Mathf.PI;
-            nowRot.SetValue(new Vector3(0f, 0f, zRot));
-        }
-    }
-
     // 移動停止
     public void Stop()
     {
@@ -114,12 +129,4 @@ public class MoveController : ObjectBehaviour<ICharacter>, IMoveController
     {
         return nowPos.GetValue();
     }
-}
-
-public interface IMoveController
-{
-    void Move(Vector3 objectPos, Vector3 targetPos);
-    void Rotate(Vector3 direction);
-    void Stop();
-    Vector3 GetNowPosition();
 }

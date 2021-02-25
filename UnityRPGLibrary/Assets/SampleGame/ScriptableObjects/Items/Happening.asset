@@ -19,5 +19,11 @@ MonoBehaviour:
   initQuality: 0
   initQuantity: 0
   initLevel: 0
-  premises: []
-  conditions: []
+  premises:
+  - happening: {fileID: 0}
+    count: 0
+  conditions:
+  - character: {fileID: 0}
+    pattern: 0
+    range: 0
+    items: []
